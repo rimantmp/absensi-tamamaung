@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Personal History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "body": "#3a3a3a",
+                      "tertiary-fixed": "#ffdf9d",
+                      "brand-teal": "#1a3a3a",
+                      "inverse-primary": "#c9c6c5",
+                      "primary-fixed": "#e5e2e1",
+                      "brand-lavender": "#b8a4ed",
+                      "on-primary-container": "#858383",
+                      "muted": "#6a6a6a",
+                      "primary": "#000000",
+                      "error": "#ef4444",
+                      "tertiary": "#000000",
+                      "surface-tint": "#5f5e5e",
+                      "success": "#22c55e",
+                      "surface-dim": "#dedad0",
+                      "surface-container-highest": "#e7e2d8",
+                      "brand-ochre": "#e8b94a",
+                      "secondary-fixed": "#e7e2d6",
+                      "outline-variant": "#c4c7c7",
+                      "brand-peach": "#ffb084",
+                      "background": "#fef9ef",
+                      "outline": "#747878",
+                      "on-primary-fixed-variant": "#474646",
+                      "error-container": "#ffdad6",
+                      "inverse-surface": "#32302a",
+                      "hairline": "#e5e5e5",
+                      "primary-container": "#1c1b1b",
+                      "on-secondary": "#ffffff",
+                      "secondary": "#615e55",
+                      "on-tertiary-fixed-variant": "#5b4300",
+                      "primary-fixed-dim": "#c9c6c5",
+                      "surface-container-low": "#f8f3e9",
+                      "ink": "#0a0a0a",
+                      "surface-container": "#f2ede4",
+                      "secondary-fixed-dim": "#cac6ba",
+                      "on-secondary-fixed": "#1d1c14",
+                      "tertiary-fixed-dim": "#f0c050",
+                      "surface-bright": "#fef9ef",
+                      "tertiary-container": "#251a00",
+                      "surface-container-high": "#ece8de",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#656359",
+                      "surface-variant": "#e7e2d8",
+                      "brand-pink": "#ff4d8b",
+                      "on-primary-fixed": "#1c1b1b",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#f5f0e6",
+                      "on-surface-variant": "#444748",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-container": "#a67e0b",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#e4dfd3",
+                      "on-tertiary-fixed": "#251a00",
+                      "on-surface": "#1d1c16",
+                      "on-error": "#ffffff",
+                      "on-background": "#1d1c16",
+                      "on-secondary-fixed-variant": "#49473e",
+                      "surface": "#fef9ef"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "md": "16px",
+                      "sidebar-width": "260px",
+                      "xs": "8px",
+                      "xxl": "48px",
+                      "lg": "24px",
+                      "xl": "32px",
+                      "sm": "12px",
+                      "section": "96px",
+                      "xxs": "4px"
+              },
+              "fontFamily": {
+                      "display-md": ["Inter"],
+                      "display-xl": ["Inter"],
+                      "nav-link": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "title-md": ["Inter"],
+                      "display-md-mobile": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "button": ["Inter"]
+              },
+              "fontSize": {
+                      "display-md": ["40px", {"lineHeight": "1.1", "letterSpacing": "-1px", "fontWeight": "500"}],
+                      "display-xl": ["72px", {"lineHeight": "1.0", "letterSpacing": "-2.5px", "fontWeight": "500"}],
+                      "nav-link": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "1.55", "fontWeight": "400"}],
+                      "title-lg": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.3px", "fontWeight": "600"}],
+                      "title-md": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-md-mobile": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.5px", "fontWeight": "500"}],
+                      "display-lg": ["56px", {"lineHeight": "1.05", "letterSpacing": "-2px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "1.55", "fontWeight": "400"}],
+                      "button": ["14px", {"lineHeight": "1.0", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for table area */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--color-outline-variant);
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-sm h-screen overflow-hidden flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="w-sidebar-width h-screen fixed left-0 top-0 bg-surface-container-low border-r border-hairline flex flex-col h-full p-md z-40 hidden md:flex transition-all duration-200 ease-in-out">
+<!-- Header -->
+<div class="mb-xl flex items-center gap-sm px-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center overflow-hidden shrink-0 border border-hairline">
+<span class="material-symbols-outlined text-muted" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="font-title-md text-title-md text-ink truncate" title="SD Inpres Tamamaung IV">SD Inpres Tamamaung IV</h1>
+<p class="font-body-sm text-body-sm text-muted">Attendance System</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-xs overflow-y-auto">
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out bg-surface-container-high text-ink font-semibold font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined fill" data-icon="qr_code_scanner" data-weight="fill">qr_code_scanner</span>
+                Attendance
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                Students
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+                Staff
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                Reports
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<!-- CTA -->
+<div class="mt-auto pt-lg pb-md">
+<button class="w-full bg-primary text-on-primary font-button text-button py-sm rounded-lg flex items-center justify-center gap-xs hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]" data-icon="document_scanner">document_scanner</span>
+                Quick Scan
+            </button>
+</div>
+<!-- Footer Links -->
+<div class="border-t border-hairline pt-sm space-y-xs">
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg transition-all duration-200 ease-in-out text-muted hover:text-ink hover:bg-surface-container font-nav-link text-nav-link" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-sidebar-width h-full overflow-y-auto bg-background">
+<!-- Mobile Header (Visible only on small screens) -->
+<header class="md:hidden flex items-center justify-between p-md border-b border-hairline bg-surface-container-lowest sticky top-0 z-30">
+<h1 class="font-title-md text-title-md text-ink">My Attendance</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-variant text-ink">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<div class="p-md md:p-xl max-w-6xl mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="hidden md:flex justify-between items-end mb-lg">
+<div>
+<p class="font-body-sm text-body-sm text-muted mb-xxs">Student Portal</p>
+<h2 class="font-display-md text-display-md text-ink">My Attendance</h2>
+</div>
+</div>
+<!-- Top Grid: QR Card & Summary -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- QR Card Column (Peach) -->
+<div class="lg:col-span-4 flex flex-col">
+<div class="bg-brand-peach border border-hairline rounded-xl p-lg flex flex-col items-center relative overflow-hidden shrink-0 shadow-sm h-full justify-between">
+<!-- Decorative bg element -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl pointer-events-none"></div>
+<div class="text-center mb-md z-10 w-full">
+<h3 class="font-title-lg text-title-lg text-ink mb-1">Ahmad Faisal</h3>
+<p class="font-body-sm text-body-sm text-ink/80 bg-white/30 inline-block px-sm py-xxs rounded-full">Class 5B • NISN: 0098765432</p>
+</div>
+<div class="bg-white p-sm rounded-lg border border-hairline mb-md z-10 shadow-sm w-full max-w-[200px] aspect-square flex items-center justify-center">
+<!-- Placeholder for QR Code image -->
+<img alt="QR Code" class="w-full h-full object-cover mix-blend-multiply opacity-80" data-alt="A clean, high-contrast, perfectly square digital QR code graphic rendered in stark black and white. The surrounding area is pure white to ensure scanability. The aesthetic is purely functional and technological, lacking any extraneous background details, suitable for a digital attendance card overlay." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVVWc080-ZHEYCl0zXalifYibZriZ-2kX-H6toAMILiAIL5bSB-8L_QnXAK_b82xC-aGnHvpzwGW-M1wxXE22ASjEv0-0oz4w-KHcCUnOoVVvtTN_V3LJ2ds_DIbvRUpT_iafei1cojVDAMiuHoH7xYHxN81HcCNkPod9Klgw1skCJPpDWOdf3nikRMs1iO1nt0WCGOxgDrDPd64lX3aGtvqiUTElwByAQY3_9_feBDI0NE9V_pvatUrXOd6K4nIUtwEjswZdWw4s"/>
+</div>
+<button class="w-full bg-ink text-surface font-button text-button py-sm px-md rounded-lg flex items-center justify-center gap-xs hover:bg-ink/90 transition-colors z-10">
+<span class="material-symbols-outlined text-[18px]" data-icon="print">print</span>
+                            Print My QR Card
+                        </button>
+</div>
+</div>
+<!-- Summary Stats Column -->
+<div class="lg:col-span-8 grid grid-cols-2 gap-sm md:gap-md h-full">
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-md flex flex-col justify-center">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-success" data-icon="check_circle">check_circle</span>
+<span class="font-title-md text-title-md text-ink">Present</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-display-md text-display-md text-ink">18</span>
+<span class="font-body-sm text-body-sm text-muted">days this month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-md flex flex-col justify-center">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-error" data-icon="cancel">cancel</span>
+<span class="font-title-md text-title-md text-ink">Absent</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-display-md text-display-md text-ink">2</span>
+<span class="font-body-sm text-body-sm text-muted">days this month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-md flex flex-col justify-center col-span-2 md:col-span-1">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-brand-ochre" data-icon="schedule">schedule</span>
+<span class="font-title-md text-title-md text-ink">Late</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-display-md text-display-md text-ink">0</span>
+<span class="font-body-sm text-body-sm text-muted">days this month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-md flex flex-col justify-center col-span-2 md:col-span-1">
+<p class="font-body-sm text-body-sm text-muted mb-xs">Attendance Rate</p>
+<div class="w-full bg-surface-variant rounded-full h-2 mb-sm overflow-hidden">
+<div class="bg-success h-2 rounded-full" style="width: 90%"></div>
+</div>
+<p class="font-title-md text-title-md text-ink text-right">90%</p>
+</div>
+</div>
+</div>
+<!-- History Section -->
+<div class="bg-surface-container-lowest border border-hairline rounded-xl overflow-hidden flex flex-col">
+<!-- Section Header & Filters -->
+<div class="p-md border-b border-hairline flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm bg-surface-container-low/50">
+<h3 class="font-title-md text-title-md text-ink">History</h3>
+<div class="flex items-center gap-xs bg-surface-variant rounded-lg p-xxs">
+<button class="px-sm py-xxs text-muted hover:text-ink font-body-sm text-body-sm transition-colors rounded-DEFAULT">Oct</button>
+<button class="px-sm py-xxs bg-surface-container-lowest text-ink font-semibold font-body-sm text-body-sm rounded-DEFAULT shadow-sm border border-hairline">Nov</button>
+<button class="px-sm py-xxs text-muted hover:text-ink font-body-sm text-body-sm transition-colors rounded-DEFAULT">Dec</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-hairline bg-surface-container-lowest">
+<th class="py-sm px-md font-body-sm text-body-sm font-semibold text-muted whitespace-nowrap">Date</th>
+<th class="py-sm px-md font-body-sm text-body-sm font-semibold text-muted whitespace-nowrap">Time In</th>
+<th class="py-sm px-md font-body-sm text-body-sm font-semibold text-muted whitespace-nowrap">Time Out</th>
+<th class="py-sm px-md font-body-sm text-body-sm font-semibold text-muted whitespace-nowrap">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-hairline">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">Today, Nov 15</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">06:45 AM</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-muted">--</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xxs px-sm py-xxs rounded-full bg-success/10 text-success font-body-sm text-body-sm text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Present
+                                    </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">Thu, Nov 14</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">07:05 AM</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">02:15 PM</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xxs px-sm py-xxs rounded-full bg-brand-ochre/10 text-brand-ochre font-body-sm text-body-sm text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-ochre"></span>
+                                        Late
+                                    </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">Wed, Nov 13</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">06:50 AM</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">02:20 PM</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xxs px-sm py-xxs rounded-full bg-success/10 text-success font-body-sm text-body-sm text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Present
+                                    </span>
+</td>
+</tr>
+<!-- Row 4 (Absent) -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">Tue, Nov 12</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-muted">--</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-muted">--</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xxs px-sm py-xxs rounded-full bg-error/10 text-error font-body-sm text-body-sm text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Absent (Sick)
+                                    </span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">Mon, Nov 11</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">06:40 AM</td>
+<td class="py-sm px-md font-body-sm text-body-sm text-ink">02:30 PM</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center gap-xxs px-sm py-xxs rounded-full bg-success/10 text-success font-body-sm text-body-sm text-[12px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                        Present
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="p-sm border-t border-hairline flex justify-center bg-surface-container-lowest">
+<button class="text-muted hover:text-ink font-body-sm text-body-sm flex items-center gap-xs px-sm py-xxs transition-colors">
+                        Load More
+                        <span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
