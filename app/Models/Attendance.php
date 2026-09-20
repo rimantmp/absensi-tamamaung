@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['student_id', 'class_id', 'date', 'check_in_time', 'status', 'input_type', 'note', 'created_by'])]
+#[Fillable(['student_id', 'class_id', 'date', 'check_in_time', 'check_out_time', 'status', 'input_type', 'note', 'created_by'])]
 class Attendance extends Model
 {
     protected function casts(): array
@@ -13,6 +13,7 @@ class Attendance extends Model
         return [
             'date' => 'date',
             'check_in_time' => 'datetime:H:i:s',
+            'check_out_time' => 'datetime:H:i:s',
         ];
     }
 

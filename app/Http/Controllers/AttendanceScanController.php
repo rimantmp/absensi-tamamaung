@@ -37,13 +37,19 @@ class AttendanceScanController extends Controller
         }
 
         $today = today();
+        $now = now();
         $existing = Attendance::with(['student.class'])->where('student_id', $student->id)->whereDate('date', $today)->first();
 
         if ($existing) {
-            return response()->json($this->payload($existing, 'Absensi hari ini sudah tercatat.', false));
+            if ($existing->check_out_time) {
+                return response()->json($this->payload($existing, 'Absensi hari ini sudah lengkap (masuk & pulang).', false));
+            }
+
+            $existing->update(['check_out_time' => $now->format('H:i:s')]);
+
+            return response()->json($this->payload($existing->refresh(), 'Jam pulang berhasil dicatat.', false));
         }
 
-        $now = now();
         $setting = AttendanceSetting::first();
         $lateLimit = Carbon::parse(($setting?->late_time_limit ?? '07:15:00'))->setDate($now->year, $now->month, $now->day);
         $status = $now->lte($lateLimit) ? 'Hadir' : 'Terlambat';
@@ -70,6 +76,7 @@ class AttendanceScanController extends Controller
             'student' => $attendance->student->name,
             'class' => $attendance->student->class->name,
             'time' => optional($attendance->check_in_time)->format('H:i') ?? substr((string) $attendance->getRawOriginal('check_in_time'), 0, 5),
+            'check_out' => optional($attendance->check_out_time)->format('H:i'),
             'status' => $attendance->status,
         ];
     }

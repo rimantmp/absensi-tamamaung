@@ -22,4 +22,14 @@ class Student extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    public function promotions()
+    {
+        return $this->hasMany(Promotion::class);
+    }
 }

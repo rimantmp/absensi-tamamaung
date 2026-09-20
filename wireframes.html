@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe — Sistem Absensi SD Inpres Tamamaung IV</title>
+<style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+        --bg:#ffffff;            /* background utama (WAJIB putih) */
+        --ink:#0a0a0a;           /* teks penting / elemen utama */
+        --gray-900:#111111;
+        --gray-700:#3a3a3a;      /* body text */
+        --gray-500:#6b7280;      /* secondary text / placeholder */
+        --gray-300:#d4d4d8;      /* border */
+        --gray-200:#e4e4e7;      /* hairline */
+        --gray-100:#f4f4f5;      /* surface low */
+        --gray-50:#fafafa;       /* surface */
+    }
+    body{background:var(--bg);color:var(--gray-700);font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;padding-bottom:80px}
+    a{color:inherit;text-decoration:none}
+    .docs{max-width:1240px;margin:0 auto;padding:40px 28px}
+    h1,h2,h3,h4{color:var(--ink);font-weight:600;letter-spacing:-.5px}
+    h1{font-size:30px;margin-bottom:4px}
+    h2{font-size:20px;margin:0 0 4px}
+    h3{font-size:15px}
+    .lede{color:var(--gray-500);margin-bottom:24px;max-width:760px}
+    hr{border:0;border-top:1px solid var(--gray-200);margin:32px 0}
+    section{margin-top:56px;scroll-margin-top:20px}
+    section>h2{margin-bottom:16px}
+
+    /* ===== Summary tables & map ===== */
+    .card-table{width:100%;border-collapse:collapse;background:var(--bg)}
+    .card-table th,.card-table td{border:1px solid var(--gray-200);padding:8px 12px;text-align:left;vertical-align:top;font-size:13px}
+    .card-table th{background:var(--gray-100);color:var(--ink);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+    .card-table td:first-child{white-space:nowrap}
+    .route{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--gray-500);background:var(--gray-50);border:1px solid var(--gray-200);border-radius:4px;padding:1px 6px}
+    .pill{display:inline-block;font-size:11px;font-weight:600;border:1px solid var(--gray-300);border-radius:999px;padding:1px 8px;color:var(--gray-500);background:var(--bg);white-space:nowrap}
+    .pill.pub{border-color:var(--gray-900)}
+    .pill.auth{background:var(--gray-900);color:#fff;border-color:var(--gray-900)}
+    .pill.siswa{color:var(--ink);border-style:dashed}
+    .io{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 10px;white-space:nowrap}
+    .io.in{background:var(--ink);color:#fff}
+    .io.out{border:1.5px solid var(--ink);color:var(--ink);background:var(--bg)}
+    .map{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;line-height:1.7;color:var(--gray-700);background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:20px 24px;overflow-x:auto}
+    .map b{color:var(--ink);font-weight:600}
+    .map .dim{color:var(--gray-500)}
+
+    /* ===== Screen frame ===== */
+    .screen{border:1px solid var(--gray-300);border-radius:12px;margin:28px 0;overflow:hidden;background:var(--bg)}
+    .screen-label{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--gray-200);background:var(--gray-50)}
+    .screen-label b{color:var(--ink);font-size:14px}
+    .screen-label .meta{font-size:12px;color:var(--gray-500)}
+    .screen-body{background:var(--bg);overflow-x:auto}
+    .notes{padding:10px 18px;border-top:1px solid var(--gray-200);background:var(--gray-50);font-size:12px;color:var(--gray-500)}
+    .notes b{color:var(--gray-700);font-weight:600}
+
+    /* ===== App shell (sidebar layout) ===== */
+    .shell{display:flex;min-height:440px;background:var(--bg)}
+    .sidebar{width:224px;flex:0 0 auto;border-right:1px solid var(--gray-200);background:var(--gray-50);padding:14px;display:flex;flex-direction:column}
+    .brand{display:flex;gap:10px;align-items:center;margin:0 2px 20px}
+    .logo-box{width:34px;height:34px;border:2px solid var(--ink);border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ink);background:var(--bg)}
+    .brand-name{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.15}
+    .brand-sub{font-size:10.5px;color:var(--gray-500)}
+    .quick{border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:7px;padding:8px 10px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:18px}
+    .quick .ic{width:14px;height:14px;border:1.5px solid #fff;border-radius:2px;display:grid;place-items:center;font-size:8px}
+    .nav{display:flex;flex-direction:column;gap:2px;flex:1}
+    .nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12.5px;color:var(--gray-500);border:1px solid transparent}
+    .nav a .ic{width:13px;height:13px;border:1.5px solid currentColor;border-radius:3px;flex:0 0 auto;opacity:.7}
+    .nav a:hover{color:var(--ink)}
+    .nav a.active{background:var(--gray-200);color:var(--ink);font-weight:600}
+    .nav a.active .ic{border-color:var(--ink)}
+    .side-foot{border-top:1px solid var(--gray-200);padding-top:12px;margin-top:12px;display:flex;flex-direction:column;gap:2px}
+    .side-foot a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12.5px;color:var(--gray-500)}
+    .side-foot a .ic{width:13px;height:13px;border:1.5px solid currentColor;border-radius:3px;opacity:.7}
+    .user-chip{padding:8px 10px;font-size:11.5px;color:var(--gray-500);line-height:1.4}
+    .user-chip b{color:var(--ink);display:block;font-size:12px}
+    .main{flex:1;min-width:0;padding:22px 26px;display:flex;flex-direction:column;gap:16px}
+    .page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+    .page-head h2{font-size:22px;letter-spacing:-.8px}
+    .page-head p{font-size:12.5px;color:var(--gray-500);margin-top:2px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+    /* ===== Buttons ===== */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:600;white-space:nowrap}
+    .btn.sec{background:var(--bg);color:var(--ink);border-color:var(--gray-300)}
+    .btn.ghost{background:var(--bg);color:var(--gray-700);border-color:var(--gray-300)}
+    .btn .ic{width:12px;height:12px;border:1.5px solid currentColor;border-radius:2px;flex:0 0 auto}
+    .btn.w100{width:100%}
+
+    /* ===== Cards & grids ===== */
+    .card{border:1px solid var(--gray-200);border-radius:10px;background:var(--bg);padding:16px;overflow-x:auto}
+    .card h3{font-size:13.5px;margin:0 0 12px}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+    .stat{border:1px solid var(--gray-200);border-radius:10px;background:var(--bg);padding:14px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+    .stat .top{display:flex;justify-content:space-between;align-items:center;color:var(--gray-500);font-size:12px}
+    .stat .top .ic{width:16px;height:16px;border:1.5px solid var(--gray-500);border-radius:4px}
+    .stat .num{font-size:30px;font-weight:600;letter-spacing:-1px;color:var(--ink);line-height:1}
+    .stat .num small{font-size:12px;color:var(--gray-500);font-weight:400;letter-spacing:0}
+    .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px}
+
+    /* ===== Table ===== */
+    table{width:100%;min-width:560px;border-collapse:collapse;background:var(--bg)}
+    th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--gray-200);font-size:12.5px;vertical-align:middle}
+    th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-500);font-weight:600}
+    td .sub{color:var(--gray-500);font-size:11.5px}
+    tbody tr:last-child td{border-bottom:0}
+    .txt-dark{color:var(--ink);font-weight:600}
+    .badge{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--gray-300);border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600;color:var(--gray-700);background:var(--bg);white-space:nowrap}
+    .badge.ok{color:var(--ink);border-color:var(--ink)}
+    .rowlink{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--gray-300);border-radius:6px;padding:4px 10px;color:var(--gray-700)}
+
+    /* ===== Forms ===== */
+    .field{display:grid;gap:5px;font-size:11.5px;font-weight:600;color:var(--gray-700)}
+    .input{width:100%;min-height:32px;border:1px solid var(--gray-300);border-radius:6px;background:var(--bg);padding:6px 9px;font-size:12.5px;color:var(--ink)}
+    .input.ph{color:var(--gray-500)}
+    select.input{appearance:none;background:var(--bg)}
+    .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .f-grid{display:grid;gap:12px}
+    .check-row{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--gray-700);font-size:12.5px}
+    .check{border:1.5px solid var(--gray-300);border-radius:3px;width:15px;height:15px;flex:0 0 auto}
+
+    /* ===== Filter bars ===== */
+    .filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1px solid var(--gray-200);border-radius:10px;background:var(--bg);padding:12px}
+    .filter .input{width:auto;max-width:180px}
+
+    /* ===== Pagination ===== */
+    .pagination{display:flex;gap:6px;justify-content:flex-end;align-items:center;margin-top:14px;flex-wrap:wrap}
+    .pg{border:1px solid var(--gray-300);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--gray-700);background:var(--bg)}
+    .pg.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .pg.dim{color:var(--gray-500)}
+
+    /* ===== Scan page ===== */
+    .public{min-height:440px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:22px;text-align:center}
+    .public .brand-big{width:54px;height:54px;border:2px solid var(--ink);border-radius:14px;display:grid;place-items:center;font-size:20px;font-weight:700;color:var(--ink);margin:0 auto 10px}
+    .public h2{font-size:22px;letter-spacing:-.8px}
+    .public p{color:var(--gray-500);font-size:13px;max-width:520px}
+    .scan-wrap{width:100%;max-width:760px;display:grid;grid-template-columns:1.15fr 1fr;gap:14px;text-align:left}
+    .scanner{border:1px solid var(--gray-300);border-radius:10px;background:var(--gray-100);min-height:240px;position:relative;display:grid;place-items:center}
+    .scanner .corners{position:absolute;inset:18px;border:2px solid var(--gray-500)}
+    .scanner .corners:before{content:"";position:absolute;left:14px;right:14px;top:0;height:2px;background:var(--ink)}
+    .scanner .cam{width:44px;height:44px;border:1.5px solid var(--gray-500);border-radius:8px;display:grid;place-items:center;font-size:18px;color:var(--gray-500)}
+    .result{border:1px solid var(--gray-200);border-radius:10px;background:var(--bg);padding:14px;display:grid;gap:10px;align-content:start}
+    .result .input{width:100%}
+    .result-ph{min-height:86px;border:1px dashed var(--gray-300);border-radius:8px;display:grid;place-items:center;color:var(--gray-500);font-size:12px;background:var(--gray-50)}
+    .av-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .avatar{width:46px;height:46px;border:1.5px solid var(--gray-300);border-radius:999px;display:grid;place-items:center;font-size:15px;color:var(--gray-500);background:var(--gray-50);flex:0 0 auto}
+    .mini-head h4{font-size:15px;color:var(--ink);line-height:1.25}
+    .mini-head p{font-size:11.5px;color:var(--gray-500)}
+
+    /* ===== Print cards ===== */
+    .cards-grid{display:flex;flex-wrap:wrap;gap:14px}
+    .print-card{width:190px;border:1px solid var(--gray-200);border-radius:9px;background:var(--bg);padding:14px;text-align:center}
+    .print-card h4{font-size:12.5px;color:var(--ink);margin-bottom:2px}
+    .print-card p{font-size:10.5px;color:var(--gray-500);line-height:1.4}
+    .qr{width:96px;height:96px;border:1px solid var(--gray-300);margin:12px auto;display:grid;place-items:center;position:relative}
+    .qr:before,.qr:after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--ink);background:var(--bg)}
+    .qr:before{top:4px;left:4px;border-right:0;border-bottom:0}
+    .qr:after{bottom:4px;right:4px;border-left:0;border-top:0}
+    .qr .dots{width:34px;height:34px;opacity:.55;background-image:radial-gradient(var(--ink) 1.2px,transparent 1.3px);background-size:7px 7px}
+    .print-card code{font-family:ui-monospace,Consolas,monospace;font-size:9.5px;color:var(--gray-500)}
+    .print-card.alone{width:300px;text-align:left}
+    .print-card.alone .qr{width:150px;height:150px;margin:12px auto}
+    .print-card.alone .qr .dots{width:52px;height:52px;background-size:10px 10px}
+
+    /* ===== Color chips for statuses ===== */
+    .sw{display:inline-block;width:9px;height:9px;border-radius:3px;border:1px solid var(--gray-300);margin-right:4px;vertical-align:-1px}
+    .sw.black{background:var(--ink)}
+
+    /* ===== Responsive ===== */
+    @media(max-width:860px){
+        .docs{padding:24px 16px}
+        .scan-wrap{grid-template-columns:1fr}
+        .f2{grid-template-columns:1fr}
+        .shell{min-height:0}
+        .sidebar{width:100%;border-right:0;border-bottom:1px solid var(--gray-200)}
+        .sidebar .nav{flex-direction:row;overflow-x:auto}
+        .sidebar .nav a{white-space:nowrap}
+        .sidebar .side-foot{flex-direction:row;overflow-x:auto}
+        .sidebar .side-foot .user-chip{display:none}
+    }
+    @media print{section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="docs">
+
+    <!-- ================= COVER ================= -->
+    <h1>Wireframe — Sistem Absensi Siswa</h1>
+    <p class="lede">
+        <b style="color:var(--ink)">SD Inpres Tamamaung IV</b> &middot; Aplikasi absensi berbasis QR/barcode.
+        Stack: Laravel (Blade) + Tailwind CSS + MySQL. Dokumen ini memetakan <b style="color:var(--ink)">seluruh halaman
+        yang benar-benar ada pada project</b> (berdasarkan <span class="route">routes/web.php</span> dan folder
+        <span class="route">resources/views</span>) dalam bentuk wireframe hitam-putih yang konsisten.
+    </p>
+
+    <!-- ================= INVENTORY ================= -->
+    <section id="inventory">
+        <h2>1. Inventaris Halaman</h2>
+        <table class="card-table">
+            <tr><th style="width:40px">#</th><th>Halaman</th><th>Route</th><th>View</th><th>Akses</th><th>Tipe</th></tr>
+            <tr><td>01</td><td><a href="#s01">Scan Mandiri</a></td><td><span class="route">GET /</span></td><td><span class="route">scan.public</span></td><td><span class="pill pub">Publik</span></td><td>Scanner / landing</td></tr>
+            <tr><td>02</td><td><a href="#s02">Login</a></td><td><span class="route">GET/POST /login</span></td><td><span class="route">auth.login</span></td><td><span class="pill pub">Publik</span></td><td>Autentikasi</td></tr>
+            <tr><td>03</td><td><a href="#s03">Dashboard Hari Ini</a></td><td><span class="route">GET /dashboard</span></td><td><span class="route">dashboard</span></td><td><span class="pill auth">Auth</span></td><td>Dashboard</td></tr>
+            <tr><td>04</td><td><a href="#s04">Data Siswa</a></td><td><span class="route">GET /students</span></td><td><span class="route">students.index</span></td><td><span class="pill auth">Admin</span></td><td>Daftar/data</td></tr>
+            <tr><td>05</td><td><a href="#s05">Tambah / Edit Siswa</a></td><td><span class="route">/students/create · /students/{id}/edit</span></td><td><span class="route">students.form</span></td><td><span class="pill auth">Admin</span></td><td>Form tambah/edit</td></tr>
+            <tr><td>06</td><td><a href="#s06">Data Kelas</a></td><td><span class="route">GET /classes</span></td><td><span class="route">classes.index</span></td><td><span class="pill auth">Admin</span></td><td>Daftar + form</td></tr>
+            <tr><td>07</td><td><a href="#s07">Data Pengguna</a></td><td><span class="route">GET /users</span></td><td><span class="route">users.index</span></td><td><span class="pill auth">Admin</span></td><td>Daftar + form</td></tr>
+            <tr><td>08</td><td><a href="#s08">Barcode/QR Siswa</a></td><td><span class="route">GET /cards</span></td><td><span class="route">cards.index</span></td><td><span class="pill auth">Admin</span></td><td>Cetak kartu</td></tr>
+            <tr><td>09</td><td><a href="#s09">Scan Internal</a></td><td><span class="route">GET /scan-internal</span></td><td><span class="route">scan.internal</span></td><td><span class="pill auth">Admin/Guru</span></td><td>Scanner</td></tr>
+            <tr><td>10</td><td><a href="#s10">Absensi Manual</a></td><td><span class="route">GET/POST /manual-attendance</span></td><td><span class="route">attendance.manual</span></td><td><span class="pill auth">Admin/Guru</span></td><td>Form input</td></tr>
+            <tr><td>11</td><td><a href="#s11">Laporan Absensi</a></td><td><span class="route">GET /reports</span></td><td><span class="route">reports.index</span></td><td><span class="pill auth">Auth</span></td><td>Daftar + filter + ekspor</td></tr>
+            <tr><td>12</td><td><a href="#s12">Pengaturan Jam Masuk</a></td><td><span class="route">GET/POST /settings</span></td><td><span class="route">settings.index</span></td><td><span class="pill auth">Admin</span></td><td>Pengaturan</td></tr>
+            <tr><td>13</td><td><a href="#s13">Kartu Barcode Saya</a></td><td><span class="route">GET /my-card</span></td><td><span class="route">cards.mine</span></td><td><span class="pill siswa">Siswa</span></td><td>Detail pribadi</td></tr>
+            <tr><td>14</td><td><a href="#s14">Riwayat Absensi Saya</a></td><td><span class="route">GET /student-history</span></td><td><span class="route">student.history</span></td><td><span class="pill siswa">Siswa</span></td><td>Daftar/data</td></tr>
+        </table>
+        <p class="lede" style="margin-top:14px">
+            <b style="color:var(--ink)">Tidak dibuat</b>: <span class="route">welcome.blade.php</span> (halaman bawaan Laravel,
+            tidak terhubung ke route manapun) dan <span class="route">reports.pdf</span> (hanya layout ekspor PDF, bukan layar browser).
+        </p>
+    </section>
+
+    <!-- ================= KLASIFIKASI INPUT/OUTPUT ================= -->
+    <section id="klasifikasi">
+        <h2>1b. Klasifikasi Halaman — Input &amp; Output</h2>
+        <p class="lede">Pembagian seluruh halaman ke dalam dua kategori berdasarkan fungsi utamanya:
+        <b style="color:var(--ink)">Input</b> = halaman yang menerima entri data dari pengguna (form / scan);
+        <b style="color:var(--ink)">Output</b> = halaman yang menyajikan data (daftar, ringkasan, kartu cetak, ekspor).</p>
+        <div class="card" style="margin-bottom:14px">
+            <h3>Input — menerima entri data</h3>
+            <table>
+                <tr><th>#</th><th>Halaman</th><th>Fungsi</th><th>Route</th><th>Akses</th></tr>
+                <tr><td>01</td><td class="txt-dark"><a href="#s01">Scan Mandiri</a></td><td>Halaman publik tempat siswa mengarahkan QR kartu pelajar ke kamera untuk mencatat kehadiran mandiri tanpa login.</td><td><span class="route">/</span></td><td><span class="pill pub">Publik</span></td></tr>
+                <tr><td>02</td><td class="txt-dark"><a href="#s02">Login</a></td><td>Form masuk dengan username/email dan password; setelah terautentikasi mengarahkan ke area sesuai peran.</td><td><span class="route">/login</span></td><td><span class="pill pub">Publik</span></td></tr>
+                <tr><td>05</td><td class="txt-dark"><a href="#s05">Tambah/Edit Siswa</a></td><td>Form untuk membuat data siswa baru atau memperbarui data siswa yang sudah ada, termasuk kelas, akun, dan status.</td><td><span class="route">/students/create · /students/{id}/edit</span></td><td><span class="pill auth">Admin</span></td></tr>
+                <tr><td>09</td><td class="txt-dark"><a href="#s09">Scan Internal</a></td><td>Scan QR/barcode oleh admin atau guru wali kelas untuk mencatat kehadiran siswa di lingkungan internal, dengan verifikasi peran.</td><td><span class="route">/scan-internal</span></td><td><span class="pill auth">Admin/Guru</span></td></tr>
+                <tr><td>10</td><td class="txt-dark"><a href="#s10">Absensi Manual</a></td><td>Form pencatatan kehadiran manual per siswa dan tanggal, dengan pilihan status (Hadir/Terlambat/Izin/Sakit/Alpa) dan catatan.</td><td><span class="route">/manual-attendance</span></td><td><span class="pill auth">Admin/Guru</span></td></tr>
+                <tr><td>12</td><td class="txt-dark"><a href="#s12">Pengaturan Jam Masuk</a></td><td>Mengatur jam masuk, batas terlambat, dan hari aktif sekolah; menjadi acuan penentuan status Hadir/Terlambat saat scan.</td><td><span class="route">/settings</span></td><td><span class="pill auth">Admin</span></td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h3>Output — menyajikan data</h3>
+            <table>
+                <tr><th>#</th><th>Halaman</th><th>Fungsi</th><th>Route</th><th>Akses</th></tr>
+                <tr><td>03</td><td class="txt-dark"><a href="#s03">Dashboard Hari Ini</a></td><td>Ringkasan kehadiran hari ini: jumlah siswa, hadir, terlambat, izin/sakit/alpa, rekap per kelas, dan daftar siswa yang belum absen.</td><td><span class="route">/dashboard</span></td><td><span class="pill auth">Auth</span></td></tr>
+                <tr><td>04</td><td class="txt-dark"><a href="#s04">Data Siswa</a></td><td>Daftar seluruh siswa dengan pencarian dan filter kelas; menampilkan NIS/NISN, kelas, status, dan kode barcode; pintu menuju form tambah/edit.</td><td><span class="route">/students</span></td><td><span class="pill auth">Admin</span></td></tr>
+                <tr><td>06</td><td class="txt-dark"><a href="#s06">Data Kelas</a></td><td>Daftar kelas beserta wali kelas, jumlah siswa, dan status; sekaligus form untuk menambah kelas baru.</td><td><span class="route">/classes</span></td><td><span class="pill auth">Admin</span></td></tr>
+                <tr><td>07</td><td class="txt-dark"><a href="#s07">Data Pengguna</a></td><td>Daftar pengguna sistem (Admin, Guru, Kepala Sekolah, Siswa) beserta login, peran, dan status; sekaligus form untuk menambah akun.</td><td><span class="route">/users</span></td><td><span class="pill auth">Admin</span></td></tr>
+                <tr><td>08</td><td class="txt-dark"><a href="#s08">Barcode/QR Siswa</a></td><td>Grid kartu QR siswa per kelas yang siap dicetak untuk dibagikan kepada siswa.</td><td><span class="route">/cards</span></td><td><span class="pill auth">Admin</span></td></tr>
+                <tr><td>11</td><td class="txt-dark"><a href="#s11">Laporan Absensi</a></td><td>Rekap kehadiran dengan filter tanggal/bulan/kelas/siswa/status, plus unduhan ekspor Excel dan PDF.</td><td><span class="route">/reports (+ ekspor)</span></td><td><span class="pill auth">Auth</span></td></tr>
+                <tr><td>13</td><td class="txt-dark"><a href="#s13">Kartu Barcode Saya</a></td><td>Kartu QR pribadi milik siswa yang sedang login, dapat dicetak untuk dipakai saat scan mandiri.</td><td><span class="route">/my-card</span></td><td><span class="pill siswa">Siswa</span></td></tr>
+                <tr><td>14</td><td class="txt-dark"><a href="#s14">Riwayat Absensi Saya</a></td><td>Riwayat kehadiran pribadi siswa dengan filter bulan, menampilkan tanggal, jam, status, dan catatan.</td><td><span class="route">/student-history</span></td><td><span class="pill siswa">Siswa</span></td></tr>
+            </table>
+        </div>
+        <p class="lede" style="margin-top:14px">Setiap layar wireframe di bawah diberi badge <span class="io in">Input</span> atau <span class="io out">Output</span> pada judul layar.</p>
+    </section>
+
+    <!-- ================= NAV MAP ================= -->
+    <section id="navmap">
+        <h2>2. Peta Navigasi</h2>
+        <pre class="map">
+<b>PUBLIK (tanpa login)</b>
+  <b>[Scan Mandiri]</b>  "/"                        ──btn "Login"──▶  <b>[Login]</b>  "/login"
+  selamat datang + arahkan QR                            login sukses ──▶  masuk ke peran masing-masing
+                              ▲
+                              └──────── tombol "Scan Mandiri" (sidebar & login) ──┐
+                                                                                 │
+<b>LAYOUT SIDEBAR (auth, per peran)</b>                                          │
+                                                          ┌─────────────────────┘
+  ┌─ ADMIN ─────────────────────────────────────────────┐
+  │ Dashboard            /dashboard                     │
+  │ Data Siswa           /students ──▶ Tambah/Edit Siswa │
+  │ Data Kelas           /classes                       │
+  │ Data Pengguna        /users                         │
+  │ Barcode/QR Siswa     /cards                         │
+  │ Scan Internal        /scan-internal                 │
+  │ Absensi Manual       /manual-attendance             │
+  │ Laporan              /reports ──▶ Excel / PDF       │
+  │ Pengaturan Jam       /settings                      │
+  │ Scan Mandiri · Logout                               │
+  └─────────────────────────────────────────────────────┘
+  ┌─ GURU (wali kelas) ─────────────────────────────────┐
+  │ Dashboard · Scan Internal · Absensi Manual · Laporan│
+  │ Scan Mandiri · Logout                               │
+  └─────────────────────────────────────────────────────┘
+  ┌─ SISWA ─────────────────────────────────────────────┐
+  │ Riwayat Saya        /student-history                │
+  │ Kartu Barcode Saya  /my-card                        │
+  │ Scan Mandiri · Logout                               │
+  └─────────────────────────────────────────────────────┘
+  Catatan: role "Kepala Sekolah" terdaftar sebagai pilihan akun, namun
+  tidak memiliki menu khusus di sidebar (mengikuti grup bukan-Siswa).</pre>
+
+        <h3 style="margin:20px 0 8px">Hubungan halaman &mdash; diagram</h3>
+        <pre class="map">
+   "/" Scan Mandiri ──▶ /login ──▶ ┌────────────────────────────────────────┐
+        ▲                          │  LAYOUT: [Sidebar 260px] + [Main]      │
+        │  tombol "Scan Mandiri"   │  Page-head: Judul + Subtitle + Actions │
+        │  (footer sidebar)        └──────┬─────────────────────────────────┘
+        │                                 │
+        ├── /dashboard ───────────────────┤  stat cards + rekap per kelas + belum absen
+        ├── /students ──▶ /students/create
+        │        └──────▶ /students/{id}/edit        (Admin)
+        ├── /classes ────────────────────┤  form tambah kelas (kiri) + tabel (kanan)
+        ├── /users ──────────────────────┤  form tambah pengguna (kiri) + tabel (kanan)
+        ├── /cards ──────────────────────┤  grid kartu QR, tombol Cetak (print)
+        ├── /scan-internal ──────────────┤  QR kamera + input barcode USB + hasil
+        ├── /manual-attendance ──────────┤  form tanggal + siswa + status + catatan
+        ├── /reports ────────────────────┤  filter + tabel → ekspor Excel/PDF
+        ├── /settings ───────────────────┤  jam masuk, batas terlambat, hari aktif
+        ├── /student-history ────────────┤  (Siswa) filter bulan + tabel riwayat
+        └── /my-card ────────────────────┤  (Siswa) kartu QR pribadi, tombol Cetak</pre>
+    </section>
+
+    <!-- ================= COMPONENTS ================= -->
+    <section id="components">
+        <h2>3. Sistem Komponen Reusable</h2>
+        <p class="lede">Seluruh halaman dibangun dari komponen berikut. Halaman 01&ndash;02 memakai
+        <b style="color:var(--ink)">Public Layout</b>; halaman 03&ndash;14 memakai <b style="color:var(--ink)">App Layout</b>.</p>
+        <div class="two">
+            <div class="card">
+                <h3>Layout A — Public (dipusatkan)</h3>
+                <div style="border:1px dashed var(--gray-300);border-radius:8px;padding:16px;text-align:center;background:var(--gray-50)">
+                    <div style="width:44px;height:44px;border:2px solid var(--ink);border-radius:11px;margin:0 auto 10px;display:grid;place-items:center">S</div>
+                    <div style="width:60%;height:10px;background:var(--gray-200);border-radius:3px;margin:0 auto 6px"></div>
+                    <div style="width:80%;height:8px;background:var(--gray-100);border-radius:3px;margin:0 auto"></div>
+                    <div style="position:relative;margin-top:12px">
+                        <div style="width:100%;height:120px;border:1px solid var(--gray-300);border-radius:8px;background:var(--bg)"></div>
+                        <div style="position:absolute;top:10px;left:10px;font-size:10px;color:var(--gray-500)">konten halaman</div>
+                    </div>
+                    <div style="margin-top:8px;display:flex;justify-content:space-between">
+                        <span style="font-size:10px;color:var(--gray-500)">konten</span>
+                        <span style="font-size:10px;color:var(--gray-500)">aksi kanan-atas (Login / Scan Mandiri)</span>
+                    </div>
+                </div>
+                <p style="font-size:12px;color:var(--gray-500);margin-top:8px">
+                    Header ikon sekolah + judul + subtitle di tengah, area konten maks 720px,
+                    tombol aksi di kanan-atas. Di mobile: aksi turun ke bawah header.
+                </p>
+            </div>
+            <div class="card">
+                <h3>Layout B — App (sidebar tetap)</h3>
+                <div style="border:1px dashed var(--gray-300);border-radius:8px;padding:0;overflow:hidden;background:var(--gray-50)">
+                    <div style="display:flex;height:170px">
+                        <div style="width:90px;background:var(--gray-100);border-right:1px solid var(--gray-200);padding:10px;flex:0 0 auto">
+                            <div style="width:34px;height:34px;border:2px solid var(--ink);border-radius:9px;margin-bottom:10px"></div>
+                            <div style="height:7px;background:var(--gray-200);border-radius:3px;margin:0 0 6px"></div>
+                            <div style="height:7px;background:var(--gray-200);border-radius:3px;margin:0 0 6px"></div>
+                            <div style="height:7px;background:var(--gray-200);border-radius:3px;margin:0 0 6px;background:var(--gray-300)"></div>
+                        </div>
+                        <div style="flex:1;padding:12px">
+                            <div style="width:40%;height:9px;background:var(--gray-300);border-radius:3px"></div>
+                            <div style="width:55%;height:6px;background:var(--gray-100);border-radius:3px;margin:5px 0 12px"></div>
+                            <div style="height:70px;border:1px solid var(--gray-200);border-radius:8px;background:var(--bg)"></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size:12px;color:var(--gray-500);margin-top:8px">
+                    Brand + tombol Quick Scan + menu navigasi (sesuai role) + footer (Scan Mandiri,
+                    info user, Logout). Page-head judul/subtitle + actions. Mobile (&le;900px):
+                    sidebar menjadi bar atas horizontal.
+                </p>
+            </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+            <h3>Komponen umum</h3>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <span class="btn">Primary</span>
+                <span class="btn sec">Secondary</span>
+                <span class="badge ok"><span class="sw black"></span>Status</span>
+                <span class="badge">Badge</span>
+                <span class="rowlink">Edit</span>
+                <span class="pg cur">1</span>
+                <span class="pg">2</span>
+                <span class="pg dim">→</span>
+                <div class="input" style="width:180px">Field input…</div>
+                <span class="pill auth">Admin</span>
+                <span class="pill">Guru</span>
+            </div>
+            <div style="font-size:12px;color:var(--gray-500);margin-top:10px;line-height:1.7">
+                Palet: putih <span style="border:1px solid var(--gray-300);background:#fff;display:inline-block;width:12px;height:12px;vertical-align:-1px"></span> ·
+                hitam <span class="sw black"></span> untuk teks utama/button ·
+                abu-abu <span class="sw"></span> untuk border, divider, placeholder, teks sekunder. Tanpa warna lain.
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 01 SCAN MANDIRI -->
+    <!-- ============================================================ -->
+    <section id="s01">
+        <h2>01. Scan Mandiri <span class="route" style="margin-left:6px">GET /</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Absensi Mandiri Siswa</b><span class="io in">Input</span><span class="meta">Layout: Public &middot; view <span class="route">scan.public</span> + partial <span class="route">scan.partials</span></span></div>
+            <div class="screen-body">
+                <div class="public">
+                    <div class="brand-big">S</div>
+                    <div>
+                        <h2>Selamat Datang di SD Inpres Tamamaung IV</h2>
+                        <p>Silakan arahkan kode QR kartu pelajar Anda ke kamera di bawah ini.</p>
+                    </div>
+                    <div class="scan-wrap">
+                        <div class="scanner">
+                            <div class="corners"></div>
+                            <div class="cam">▣</div>
+                        </div>
+                        <div class="result">
+                            <div class="field">Input barcode scanner USB
+                                <div class="input ph">Scan atau ketik kode barcode</div>
+                            </div>
+                            <div><span class="btn w100" style="width:100%">Catat Absensi</span></div>
+                            <div class="result-ph">Belum ada scan.</div>
+                        </div>
+                    </div>
+                    <span class="btn sec">Login →</span>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> public-shell (centered) · brand icon · heading welcome · <b>scanner box</b> (html5-qrcode, area kamera dengan bingkai) · <b>result panel</b> (input barcode USB + tombol "Catat Absensi" + status hasil) · tombol Login di kanan-atas. <b>Fungsi:</b> halaman publik tempat siswa mengarahkan QR kartu pelajar ke kamera untuk mencatat kehadiran mandiri tanpa login. <b>Responsif:</b> 2 kolom scanner+result menyusun menjadi 1 kolom; konten rata atas.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 02 LOGIN -->
+    <!-- ============================================================ -->
+    <section id="s02">
+        <h2>02. Login <span class="route" style="margin-left:6px">GET/POST /login</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Login</b><span class="io in">Input</span><span class="meta">Layout: Public &middot; view <span class="route">auth.login</span></span></div>
+            <div class="screen-body">
+                <div class="public">
+                    <div class="brand-big">S</div>
+                    <div>
+                        <h2>Login</h2>
+                        <p>Masuk untuk area internal atau fitur pribadi siswa.</p>
+                    </div>
+                    <div class="card" style="width:100%;max-width:420px;text-align:left">
+                        <div class="f-grid">
+                            <div class="field">Username atau Email<div class="input ph">contoh: admin</div></div>
+                            <div class="field">Password<div class="input">••••••••</div></div>
+                            <div class="check-row"><span class="check"></span> Ingat saya</div>
+                            <span class="btn w100">Login</span>
+                        </div>
+                    </div>
+                    <span class="btn sec">Scan Mandiri →</span>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> form login (login/username-email, password, checkbox "Ingat saya", tombol submit lebar penuh) · tombol sekunder "Scan Mandiri" ke halaman 01 · pesan error validasi di bawah field. <b>Fungsi:</b> form masuk dengan username/email dan password; setelah terautentikasi mengarahkan ke area sesuai peran. <b>Responsif:</b> kartu form tetap 100%&ndash;420px, tetap satu kolom.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 03 DASHBOARD -->
+    <!-- ============================================================ -->
+    <section id="s03">
+        <h2>03. Dashboard Hari Ini <span class="route" style="margin-left:6px">GET /dashboard</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Dashboard Hari Ini</b><span class="io out">Output</span><span class="meta">Layout: App (sidebar Admin/Guru) &middot; view <span class="route">dashboard</span></span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a class="active"><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Dashboard Hari Ini</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div>
+                        </div>
+                        <div class="stats">
+                            <div class="stat"><div class="top">Siswa Aktif<span class="ic"></span></div><div class="num">120</div></div>
+                            <div class="stat"><div class="top">Hadir Hari Ini<span class="ic"></span></div><div class="num">98</div></div>
+                            <div class="stat"><div class="top">Terlambat<span class="ic"></span></div><div class="num">7</div></div>
+                            <div class="stat"><div class="top">Izin/Sakit/Alpa<span class="ic"></span></div><div class="num">15</div></div>
+                        </div>
+                        <div class="two">
+                            <div class="card">
+                                <h3>Rekap per Kelas</h3>
+                                <table>
+                                    <tr><th>Kelas</th><th>Absen</th><th>Total</th></tr>
+                                    <tr><td class="txt-dark">1-A</td><td>25</td><td>27</td></tr>
+                                    <tr><td class="txt-dark">1-B</td><td>24</td><td>26</td></tr>
+                                    <tr><td class="txt-dark">2-A</td><td>22</td><td>25</td></tr>
+                                    <tr><td class="txt-dark">3-A</td><td>27</td><td>30</td></tr>
+                                </table>
+                            </div>
+                            <div class="card">
+                                <h3>Belum Absen</h3>
+                                <table>
+                                    <tr><th>Nama</th><th>Kelas</th></tr>
+                                    <tr><td class="txt-dark">Ahmad Fauzi</td><td>4-A</td></tr>
+                                    <tr><td class="txt-dark">Budi Santoso</td><td>4-A</td></tr>
+                                    <tr><td class="txt-dark">Citra Lestari</td><td>5-B</td></tr>
+                                    <tr><td class="txt-dark">Dewi Anggraini</td><td>6-A</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> 4 kartu statistik angka besar · dua kartu tabel (Rekap per Kelas, Belum Absen). <b>Role:</b> Guru melihat data hanya kelas wali-nya; Siswa langsung diarahkan ke Riwayat Saya. <b>Fungsi:</b> ringkasan kehadiran hari ini: jumlah siswa, hadir, terlambat, izin/sakit/alpa, rekap per kelas, dan daftar siswa yang belum absen. <b>Responsif:</b> stat &amp; tabel menjadi satu kolom.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 04 DATA SISWA -->
+    <!-- ============================================================ -->
+    <section id="s04">
+        <h2>04. Data Siswa <span class="route" style="margin-left:6px">GET /students</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Data Siswa</b><span class="io out">Output</span><span class="meta">Layout: App &middot; view <span class="route">students.index</span> &middot; admin only</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a class="active"><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Data Siswa</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div>
+                            <div class="actions"><span class="btn">+ Tambah Siswa</span></div>
+                        </div>
+                        <div class="filter">
+                            <div class="input ph" style="max-width:240px;flex:1">Cari nama/NIS/NISN…</div>
+                            <div class="input">Semua kelas</div>
+                            <span class="btn sec">Filter</span>
+                        </div>
+                        <div class="card">
+                            <table>
+                                <tr><th>Nama</th><th>NIS/NISN</th><th>Kelas</th><th>Status</th><th>Barcode</th><th></th></tr>
+                                <tr><td class="txt-dark">Ahmad Fauzi</td><td>2024001<br><span class="sub">0012345678</span></td><td>4-A</td><td><span class="badge ok">active</span></td><td><span class="route">SDIT4-…</span></td><td><span class="rowlink">Edit</span></td></tr>
+                                <tr><td class="txt-dark">Budi Santoso</td><td>2024002<br><span class="sub">0012345679</span></td><td>4-A</td><td><span class="badge ok">active</span></td><td><span class="route">SDIT4-…</span></td><td><span class="rowlink">Edit</span></td></tr>
+                                <tr><td class="txt-dark">Citra Lestari</td><td>2024003<br><span class="sub">0012345680</span></td><td>5-B</td><td><span class="badge">inactive</span></td><td><span class="route">SDIT4-…</span></td><td><span class="rowlink">Edit</span></td></tr>
+                                <tr><td class="txt-dark">Dewi Anggraini</td><td>2024004<br><span class="sub">0012345681</span></td><td>6-A</td><td><span class="badge ok">active</span></td><td><span class="route">SDIT4-…</span></td><td><span class="rowlink">Edit</span></td></tr>
+                            </table>
+                            <div class="pagination">
+                                <span class="pg dim">‹</span><span class="pg cur">1</span><span class="pg">2</span><span class="pg">3</span><span class="pg dim">›</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> filter (cari nama/NIS/NISN + pilih kelas + Filter) · tabel (Nama, NIS/NISN dua baris, Kelas, Status, Barcode, aksi Edit) · pagination 15/halaman · tombol "Tambah Siswa" ke halaman 05. <b>Fungsi:</b> daftar seluruh siswa dengan pencarian dan filter kelas; menampilkan NIS/NISN, kelas, status, dan kode barcode; pintu menuju form tambah/edit. <b>Responsif:</b> tabel scroll horizontal; filter membungkus.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 05 TAMBAH/EDIT SISWA -->
+    <!-- ============================================================ -->
+    <section id="s05">
+        <h2>05. Tambah / Edit Siswa <span class="route" style="margin-left:6px">GET /students/create · /students/{id}/edit</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Tambah Siswa / Edit Siswa</b><span class="io in">Input</span><span class="meta">Layout: App &middot; view <span class="route">students.form</span> &middot; admin only</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a class="active"><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Tambah Siswa</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="card" style="max-width:720px">
+                            <div class="f-grid">
+                                <div class="f2"><div class="field">Nama<div class="input"></div></div><div class="field">NIS<div class="input"></div></div></div>
+                                <div class="f2"><div class="field">NISN<div class="input"></div></div><div class="field">Jenis Kelamin<div class="input">Laki-laki</div></div></div>
+                                <div class="f2"><div class="field">Kelas<div class="input">4-A</div></div><div class="field">Akun Siswa<div class="input">Tanpa akun</div></div></div>
+                                <div class="field">Status<div class="input" style="max-width:220px">active</div></div>
+                                <div style="color:var(--gray-500);font-size:12px">Kode barcode dibuat otomatis (SDIT4-…) jika belum ada.</div>
+                                <div><span class="btn">Simpan</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> satu form grid (Nama+NIS, NISN+Jenis Kelamin, Kelas+Akun Siswa, Status) · tombol Simpan · title otomatis "Tambah Siswa" / "Edit Siswa" &amp; method POST/PUT. <b>Fungsi:</b> form untuk membuat data siswa baru atau memperbarui data siswa yang sudah ada, termasuk kelas, akun, dan status. <b>Responsif:</b> pasangan field menyatu menjadi 1 kolom.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 06 DATA KELAS -->
+    <!-- ============================================================ -->
+    <section id="s06">
+        <h2>06. Data Kelas <span class="route" style="margin-left:6px">GET /classes</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Data Kelas</b><span class="io out">Output</span><span class="meta">Layout: App &middot; view <span class="route">classes.index</span> &middot; admin only</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a class="active"><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Data Kelas</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="two">
+                            <div class="card">
+                                <h3>Tambah Kelas</h3>
+                                <div class="f-grid">
+                                    <div class="field">Nama Kelas<div class="input"></div></div>
+                                    <div class="field">Wali Kelas<div class="input">— pilih guru —</div></div>
+                                    <div class="field">Tahun Ajaran<div class="input">2025/2026</div></div>
+                                    <div class="field">Status<div class="input">active</div></div>
+                                    <div><span class="btn">Simpan</span></div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <table>
+                                    <tr><th>Kelas</th><th>Wali</th><th>Siswa</th><th>Status</th></tr>
+                                    <tr><td class="txt-dark">1-A</td><td>Ibu Sari</td><td>27</td><td><span class="badge ok">active</span></td></tr>
+                                    <tr><td class="txt-dark">1-B</td><td>Bapak Joko</td><td>26</td><td><span class="badge ok">active</span></td></tr>
+                                    <tr><td class="txt-dark">2-A</td><td>Ibu Dewi</td><td>25</td><td><span class="badge">inactive</span></td></tr>
+                                    <tr><td class="txt-dark">4-A</td><td>—</td><td>24</td><td><span class="badge ok">active</span></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> layout dua kolom — form "Tambah Kelas" (Nama, Wali Kelas dari user ber-role Guru, Tahun Ajaran, Status) + tabel daftar kelas. <b>Fungsi:</b> daftar kelas beserta wali kelas, jumlah siswa, dan status; sekaligus form untuk menambah kelas baru. <b>Responsif:</b> dua kolom menjadi satu.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 07 DATA PENGGUNA -->
+    <!-- ============================================================ -->
+    <section id="s07">
+        <h2>07. Data Pengguna <span class="route" style="margin-left:6px">GET /users</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Data Pengguna</b><span class="io out">Output</span><span class="meta">Layout: App &middot; view <span class="route">users.index</span> &middot; admin only</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a class="active"><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Data Pengguna</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="two">
+                            <div class="card">
+                                <h3>Tambah Pengguna</h3>
+                                <div class="f-grid">
+                                    <div class="field">Nama<div class="input"></div></div>
+                                    <div class="field">Username<div class="input"></div></div>
+                                    <div class="field">Email<div class="input"></div></div>
+                                    <div class="field">Password<div class="input">••••••</div></div>
+                                    <div class="field">Role<div class="input">Admin</div></div>
+                                    <div class="field">Status<div class="input">active</div></div>
+                                    <div><span class="btn">Buat Akun</span></div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <table>
+                                    <tr><th>Nama</th><th>Login</th><th>Role</th><th>Status</th></tr>
+                                    <tr><td class="txt-dark">Administrator</td><td>admin<br><span class="sub">admin@sdita.sch.id</span></td><td>Admin</td><td><span class="badge ok">active</span></td></tr>
+                                    <tr><td class="txt-dark">Ibu Sari</td><td>sari<br><span class="sub">sari@sdita.sch.id</span></td><td>Guru</td><td><span class="badge ok">active</span></td></tr>
+                                    <tr><td class="txt-dark">Kepsek</td><td>kepsek<br><span class="sub">kepsek@sdita.sch.id</span></td><td>Kepala Sekolah</td><td><span class="badge ok">active</span></td></tr>
+                                    <tr><td class="txt-dark">Ahmad Fauzi</td><td>ahmad<br><span class="sub">ahmad@sdita.sch.id</span></td><td>Siswa</td><td><span class="badge">inactive</span></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> form "Tambah Pengguna" (Nama, Username, Email, Password, Role: Admin/Guru/Kepala Sekolah/Siswa, Status) + tabel daftar user. Role multi-nilai pada satu baris (join koma). <b>Fungsi:</b> daftar pengguna sistem (Admin, Guru, Kepala Sekolah, Siswa) beserta login, peran, dan status; sekaligus form untuk menambah akun. <b>Responsif:</b> dua kolom menjadi satu.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 08 BARCODE/QR SISWA -->
+    <!-- ============================================================ -->
+    <section id="s08">
+        <h2>08. Barcode/QR Siswa <span class="route" style="margin-left:6px">GET /cards</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Barcode/QR Siswa</b><span class="io out">Output</span><span class="meta">Layout: App &middot; view <span class="route">cards.index</span> &middot; admin only &middot; cetak (print)</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a class="active"><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Barcode/QR Siswa</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div>
+                            <div class="actions"><span class="btn">Cetak</span></div>
+                        </div>
+                        <div class="filter">
+                            <div class="input">Semua kelas</div>
+                            <span class="btn sec">Filter</span>
+                        </div>
+                        <div class="cards-grid" style="margin-top:6px">
+                            <div class="print-card"><h4>Ahmad Fauzi</h4><p>4-A · NIS 2024001 · NISN 0012345678</p><div class="qr"><div class="dots"></div></div><code>SDIT4-3F8KQ2A1</code></div>
+                            <div class="print-card"><h4>Budi Santoso</h4><p>4-A · NIS 2024002 · NISN 0012345679</p><div class="qr"><div class="dots"></div></div><code>SDIT4-7X2L9M4C</code></div>
+                            <div class="print-card"><h4>Citra Lestari</h4><p>5-B · NIS 2024003 · NISN 0012345680</p><div class="qr"><div class="dots"></div></div><code>SDIT4-5H1N8B3D</code></div>
+                            <div class="print-card"><h4>Dewi Anggraini</h4><p>6-A · NIS 2024004 · NISN 0012345681</p><div class="qr"><div class="dots"></div></div><code>SDIT4-2J4V6W0E</code></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> filter kelas + grid kartu QR siap cetak (nama, kelas/NIS/NISN, QR 150px, kode) · tombol "Cetak" memanggil window.print; sidebar/header disembunyikan via @media print. <b>Fungsi:</b> grid kartu QR siswa per kelas yang siap dicetak untuk dibagikan kepada siswa. <b>Responsif:</b> grid kartu membungkus; cetak hanya kartu.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 09 SCAN INTERNAL -->
+    <!-- ============================================================ -->
+    <section id="s09">
+        <h2>09. Scan Internal <span class="route" style="margin-left:6px">GET /scan-internal</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Scan Absensi Internal</b><span class="io in">Input</span><span class="meta">Layout: App &middot; view <span class="route">scan.internal</span> + <span class="route">scan.partials</span> &middot; Admin/Guru</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a class="active"><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Ibu Sari</b>Guru</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Scan Absensi Internal</h2><p>Untuk admin/operator dan guru wali kelas.</p></div>
+                        </div>
+                        <div class="scan-wrap" style="max-width:none;grid-template-columns:1.15fr 1fr">
+                            <div class="scanner"><div class="corners"></div><div class="cam">▣</div></div>
+                            <div class="result">
+                                <div class="field">Input barcode scanner USB
+                                    <div class="input ph">Scan atau ketik kode barcode</div>
+                                </div>
+                                <div><span class="btn w100">Catat Absensi</span></div>
+                                <div class="result-ph">Belum ada scan.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> sama dengan halaman 01 namun di dalam App Layout — kamera QR (html5-qrcode) + input barcode USB + panel hasil scan. Hasil sukses menampilkan avatar, nama, kelas, badge status Hadir/Terlambat + jam + pesan; gagal menampilkan badge error. <b>Fungsi:</b> scan QR/barcode oleh admin atau guru wali kelas untuk mencatat kehadiran siswa di lingkungan internal, dengan verifikasi peran. <b>Responsif:</b> dua kolom menjadi satu.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 10 ABSENSI MANUAL -->
+    <!-- ============================================================ -->
+    <section id="s10">
+        <h2>10. Absensi Manual <span class="route" style="margin-left:6px">GET/POST /manual-attendance</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Absensi Manual</b><span class="io in">Input</span><span class="meta">Layout: App &middot; view <span class="route">attendance.manual</span> &middot; Admin/Guru</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a class="active"><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Ibu Sari</b>Guru</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Absensi Manual</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="card" style="max-width:720px">
+                            <div class="f-grid">
+                                <div class="f2">
+                                    <div class="field">Tanggal<div class="input">2026-08-09</div></div>
+                                    <div class="field">Siswa<div class="input">— pilih siswa —</div></div>
+                                </div>
+                                <div class="f2">
+                                    <div class="field">Status<div class="input">Hadir</div></div>
+                                    <div class="field">Catatan<div class="input" style="min-height:56px"></div></div>
+                                </div>
+                                <div><span class="btn">Simpan Absensi</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> form (Tanggal, Siswa dari kelas terotorisasi, Status: Hadir/Terlambat/Izin/Sakit/Alpa, Catatan) · tombol "Simpan Absensi" (updateOrCreate per siswa+tanggal) · Guru dibatasi pada kelas walinya. <b>Fungsi:</b> form pencatatan kehadiran manual per siswa dan tanggal, dengan pilihan status (Hadir/Terlambat/Izin/Sakit/Alpa) dan catatan. <b>Responsif:</b> pasangan field menjadi satu kolom.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 11 LAPORAN -->
+    <!-- ============================================================ -->
+    <section id="s11">
+        <h2>11. Laporan Absensi <span class="route" style="margin-left:6px">GET /reports</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Laporan Absensi</b><span class="io out">Output</span><span class="meta">Layout: App &middot; view <span class="route">reports.index</span> &middot; ekspor: <span class="route">/reports/excel</span> · <span class="route">/reports/pdf</span></span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a class="active"><span class="ic"></span>Laporan</a>
+                            <a><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Laporan Absensi</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div>
+                            <div class="actions"><span class="btn sec">Excel</span><span class="btn sec">PDF</span></div>
+                        </div>
+                        <div class="filter">
+                            <div class="input" style="max-width:150px">tanggal</div>
+                            <div class="input" style="max-width:150px">bulan</div>
+                            <div class="input">Semua kelas</div>
+                            <div class="input" style="max-width:170px">Semua siswa</div>
+                            <div class="input" style="max-width:150px">Semua status</div>
+                            <span class="btn sec">Filter</span>
+                        </div>
+                        <div class="card">
+                            <table>
+                                <tr><th>Tanggal</th><th>Siswa</th><th>Kelas</th><th>Jam</th><th>Status</th><th>Input</th></tr>
+                                <tr><td>09/08/2026</td><td class="txt-dark">Ahmad Fauzi</td><td>4-A</td><td>07:02</td><td><span class="badge ok">Hadir</span></td><td>scan</td></tr>
+                                <tr><td>09/08/2026</td><td class="txt-dark">Budi Santoso</td><td>4-A</td><td>07:34</td><td><span class="badge">Terlambat</span></td><td>scan</td></tr>
+                                <tr><td>09/08/2026</td><td class="txt-dark">Citra Lestari</td><td>5-B</td><td>—</td><td><span class="badge">Izin</span></td><td>manual</td></tr>
+                                <tr><td>08/08/2026</td><td class="txt-dark">Dewi Anggraini</td><td>6-A</td><td>07:05</td><td><span class="badge ok">Hadir</span></td><td>scan</td></tr>
+                            </table>
+                            <div class="pagination">
+                                <span class="pg dim">‹</span><span class="pg cur">1</span><span class="pg">2</span><span class="pg dim">›</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> filter (tanggal, bulan, kelas, siswa, status) · tombol aksi Excel &amp; PDF (mengunduh file, filter terbawa via query string) · tabel (Tanggal, Siswa, Kelas, Jam, Status, Input: scan/manual) · pagination 20/halaman. <b>Role:</b> Guru hanya data kelas walinya. <b>Fungsi:</b> rekap kehadiran dengan filter tanggal/bulan/kelas/siswa/status, plus unduhan ekspor Excel dan PDF. <b>Responsif:</b> filter membungkus, tabel scroll horizontal.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 12 PENGATURAN -->
+    <!-- ============================================================ -->
+    <section id="s12">
+        <h2>12. Pengaturan Jam Masuk <span class="route" style="margin-left:6px">GET/POST /settings</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Pengaturan Jam Masuk</b><span class="io in">Input</span><span class="meta">Layout: App &middot; view <span class="route">settings.index</span> &middot; admin only</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <div class="quick"><span class="ic">▦</span>Quick Scan</div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Dashboard</a>
+                            <a><span class="ic"></span>Data Siswa</a>
+                            <a><span class="ic"></span>Data Kelas</a>
+                            <a><span class="ic"></span>Data Pengguna</a>
+                            <a><span class="ic"></span>Barcode/QR Siswa</a>
+                            <a><span class="ic"></span>Scan Internal</a>
+                            <a><span class="ic"></span>Absensi Manual</a>
+                            <a><span class="ic"></span>Laporan</a>
+                            <a class="active"><span class="ic"></span>Pengaturan Jam</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Administrator</b>Admin</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Pengaturan Jam Masuk</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="card" style="max-width:640px">
+                            <div class="f-grid">
+                                <div class="f2">
+                                    <div class="field">Jam Masuk<div class="input">07:00</div></div>
+                                    <div class="field">Batas Terlambat<div class="input">07:15</div></div>
+                                </div>
+                                <div class="field" style="font-weight:600">Hari Aktif</div>
+                                <div class="f2">
+                                    <div class="check-row"><span class="check"></span> Senin</div>
+                                    <div class="check-row"><span class="check"></span> Selasa</div>
+                                    <div class="check-row"><span class="check"></span> Rabu</div>
+                                    <div class="check-row"><span class="check"></span> Kamis</div>
+                                    <div class="check-row"><span class="check"></span> Jumat</div>
+                                    <div class="check-row"><span class="check"></span> Sabtu</div>
+                                </div>
+                                <div><span class="btn">Simpan Pengaturan</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> form (Jam Masuk, Batas Terlambat — memengaruhi status Hadir vs Terlambat pada scan, dan checkbox Hari Aktif Senin–Sabtu) · tombol "Simpan Pengaturan". <b>Fungsi:</b> mengatur jam masuk, batas terlambat, dan hari aktif sekolah; menjadi acuan penentuan status Hadir/Terlambat saat scan. <b>Responsif:</b> checkbox menjadi 1 kolom.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 13 KARTU SAYA -->
+    <!-- ============================================================ -->
+    <section id="s13">
+        <h2>13. Kartu Barcode Saya <span class="route" style="margin-left:6px">GET /my-card</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Kartu Barcode Saya</b><span class="io out">Output</span><span class="meta">Layout: App (sidebar Siswa) &middot; view <span class="route">cards.mine</span> &middot; cetak</span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <nav class="nav">
+                            <a><span class="ic"></span>Riwayat Saya</a>
+                            <a class="active"><span class="ic"></span>Kartu Barcode Saya</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Ahmad Fauzi</b>Siswa</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head">
+                            <div><h2>Kartu Barcode Saya</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div>
+                            <div class="actions"><span class="btn">Cetak</span></div>
+                        </div>
+                        <div class="print-card alone">
+                            <h4 style="font-size:14px">Ahmad Fauzi</h4>
+                            <p>4-A · NIS 2024001 · NISN 0012345678</p>
+                            <div class="qr"><div class="dots"></div></div>
+                            <code>SDIT4-3F8KQ2A1</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> satu kartu QR pribadi ukuran besar (QR 170px) + tombol Cetak. Ditujukan untuk siswa memakai kartunya saat Scan Mandiri. <b>Fungsi:</b> kartu QR pribadi milik siswa yang sedang login, dapat dicetak untuk dipakai saat scan mandiri. <b>Responsif:</b> kartu tetap satu kolom; saat print hanya kartu tampil.</div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 14 RIWAYAT SAYA -->
+    <!-- ============================================================ -->
+    <section id="s14">
+        <h2>14. Riwayat Absensi Saya <span class="route" style="margin-left:6px">GET /student-history</span></h2>
+        <div class="screen">
+            <div class="screen-label"><b>Riwayat Absensi Saya</b><span class="io out">Output</span><span class="meta">Layout: App (sidebar Siswa) &middot; view <span class="route">student.history</span></span></div>
+            <div class="screen-body">
+                <div class="shell">
+                    <aside class="sidebar">
+                        <div class="brand"><div class="logo-box">S</div><div><div class="brand-name">SD Inpres Tamamaung IV</div><div class="brand-sub">Attendance System</div></div></div>
+                        <nav class="nav">
+                            <a class="active"><span class="ic"></span>Riwayat Saya</a>
+                            <a><span class="ic"></span>Kartu Barcode Saya</a>
+                        </nav>
+                        <div class="side-foot">
+                            <a><span class="ic"></span>Scan Mandiri</a>
+                            <div class="user-chip"><b>Ahmad Fauzi</b>Siswa</div>
+                            <a><span class="ic"></span>Logout</a>
+                        </div>
+                    </aside>
+                    <div class="main">
+                        <div class="page-head"><div><h2>Riwayat Absensi Saya</h2><p>Sistem absensi siswa berbasis QR/barcode.</p></div></div>
+                        <div class="filter">
+                            <div class="input" style="max-width:200px">bulan: 2026-08</div>
+                            <span class="btn sec">Filter</span>
+                            <span class="btn">Kartu Saya</span>
+                        </div>
+                        <div class="card">
+                            <table>
+                                <tr><th>Tanggal</th><th>Jam</th><th>Status</th><th>Catatan</th></tr>
+                                <tr><td>09/08/2026</td><td>07:02</td><td><span class="badge ok">Hadir</span></td><td>—</td></tr>
+                                <tr><td>08/08/2026</td><td>07:05</td><td><span class="badge ok">Hadir</span></td><td>—</td></tr>
+                                <tr><td>07/08/2026</td><td>—</td><td><span class="badge">Izin</span></td><td>Demam</td></tr>
+                                <tr><td>06/08/2026</td><td>07:41</td><td><span class="badge">Terlambat</span></td><td>—</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notes"><b>Komponen:</b> filter bulan (default bulan berjalan) + tombol "Kartu Saya" (ke halaman 13) · tabel riwayat (Tanggal, Jam, Status, Catatan) milik akun siswa yang login. <b>Fungsi:</b> riwayat kehadiran pribadi siswa dengan filter bulan, menampilkan tanggal, jam, status, dan catatan. <b>Responsif:</b> tabel scroll horizontal.</div>
+        </div>
+    </section>
+
+    <hr>
+    <p class="lede" style="font-size:12.5px">
+        Wireframe berdasarkan kode aktual project <span class="route">absensi-tamamaung</span>.
+        Layout &amp; komponen reusable didefinisikan sekali di CSS dokumen ini agar seluruh 14 layar konsisten
+        (putih / hitam / abu-abu, tanpa warna lain). Klik nama halaman pada tabel Inventaris untuk melompat ke wireframe-nya.
+    </p>
+</div>
+</body>
+</html>

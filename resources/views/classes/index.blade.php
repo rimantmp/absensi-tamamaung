@@ -1,7 +1,18 @@
 @extends('layouts.app', ['title' => 'Data Kelas'])
+@section('actions')<a class="btn" href="{{ route('classes.create') }}">Tambah Kelas</a>@endsection
 @section('content')
-<div class="grid two">
-<form class="card grid" method="post" action="{{ route('classes.store') }}">@csrf<h3>Tambah Kelas</h3><label>Nama Kelas<input name="name"></label><label>Wali Kelas<select name="homeroom_teacher_id"><option value="">-</option>@foreach($teachers as $teacher)<option value="{{ $teacher->id }}">{{ $teacher->name }}</option>@endforeach</select></label><label>Tahun Ajaran<input name="academic_year" value="2025/2026"></label><label>Status<select name="status"><option value="active">active</option><option value="inactive">inactive</option></select></label><button class="btn">Simpan</button></form>
-<div class="card"><table><tr><th>Kelas</th><th>Wali</th><th>Siswa</th><th>Status</th></tr>@foreach($classes as $class)<tr><td>{{ $class->name }}</td><td>{{ $class->homeroomTeacher->name ?? '-' }}</td><td>{{ $class->students_count }}</td><td>{{ $class->status }}</td></tr>@endforeach</table></div>
-</div>
+<div class="card"><table>
+    <tr><th>Kelas</th><th>Wali Kelas</th><th>Jumlah Siswa</th><th>Status</th><th></th></tr>
+    @forelse($classes as $class)
+    <tr>
+        <td>{{ $class->name }}</td>
+        <td>{{ $class->homeroomTeacher->name ?? '-' }}</td>
+        <td>{{ $class->students_count }}</td>
+        <td>{{ $class->status }}</td>
+        <td style="white-space:nowrap"><a class="btn secondary" style="display:inline-flex;min-height:34px" href="{{ route('classes.edit', $class) }}">Edit</a><form style="display:inline" method="post" action="{{ route('classes.destroy', $class) }}" onsubmit="return confirm('Hapus kelas {{ $class->name }} beserta seluruh data siswanya?')">@csrf @method('delete')<button class="btn secondary" style="min-height:34px;color:var(--error);border-color:var(--hairline)">Hapus</button></form></td>
+    </tr>
+    @empty
+    <tr><td colspan="5">Belum ada kelas. Klik "Tambah Kelas" untuk membuat kelas baru.</td></tr>
+    @endforelse
+</table></div>
 @endsection

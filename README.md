@@ -1,58 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Absensi Siswa Berbasis Barcode — SD Inpres Tamamaung IV
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk mencatat kehadiran siswa SD Inpres Tamamaung IV menggunakan **barcode/QR code**, dibangun dengan **Laravel 13 (PHP 8.3)**.
 
-## About Laravel
+Fitur utama:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Scan barcode/QR (mandiri publik & scan internal) untuk absensi otomatis.
+- Absensi manual oleh guru/operator.
+- Manajemen data siswa, kelas, dan akun pengguna (CRUD).
+- Cetak kartu barcode/QR siswa (per kelas atau perorangan).
+- Cetak ulang kartu oleh siswa setelah login.
+- Rekap absensi harian, bulanan, per kelas, dan per siswa.
+- Laporan lengkap (ringkasan, rekap, detail) dengan ekspor **Excel** dan **PDF**.
+- Dashboard rekap per kelas & daftar siswa yang belum absen.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Persyaratan
 
-## Learning Laravel
+- PHP **^8.3** (wajib ekstensi: `pdo_mysql`/`pdo_sqlite`, `mbstring`, `gd`, `openssl`, `xml`, `curl`, `zip`)
+- [Composer](https://getcomposer.org)
+- MySQL (rekomendasi) atau SQLite
+- Chrome / Microsoft Edge (opsional, untuk ekspor PDF yang cepat — otomatis terdeteksi; jika tidak ada, fallback ke dompdf)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> NPM/Node **tidak wajib** — tampilan aplikasi memakai CSS inline tanpa Vite.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Instalasi
 
-## Agentic Development
+### Auto installer Windows/Laragon
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. Pastikan Apache dan MySQL Laragon sudah dijalankan.
+2. Klik dua kali **`install.bat`** dari folder project.
+3. Ikuti pertanyaan konfigurasi database dan pilihan data demo.
+4. Setelah selesai, klik **Reload** pada Laragon lalu buka project dari menu Laragon.
 
-```bash
-composer require laravel/boost --dev
+Installer akan memeriksa PHP 8.3+, ekstensi PHP, dan Composer; memasang dependency; membuat `.env` jika belum ada; membuat database tanpa menghapus database lama; menjalankan migration; serta menyiapkan cache Laravel. File `.env` yang sudah ada dipertahankan secara default dan data demo hanya dimasukkan setelah mendapat persetujuan.
 
-php artisan boost:install
+Untuk hanya memeriksa kesiapan komputer tanpa mengubah file atau database, jalankan:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -CheckOnly
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Instalasi manual
 
-## Contributing
+1. **Clone / salin project** ke perangkat:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```bash
+   git clone <url-repo> absensi-tamamaung
+   cd absensi-tamamaung
+   ```
 
-## Code of Conduct
+   Jika tidak menggunakan git, cukup salin folder project ini.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Install dependency PHP:**
 
-## Security Vulnerabilities
+   ```bash
+   composer install
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Buat file `.env` dari contoh:**
 
-## License
+   ```bash
+   copy .env.example .env        # Windows (CMD)
+   # atau
+   cp .env.example .env          # Linux / macOS / Git Bash
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Generate application key:**
+
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Konfigurasi database** — buka `.env`, sesuaikan bagian berikut:
+
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=absensi_tamamaung
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+   Buat database `absensi_tamamaung` di MySQL (mis. via phpMyAdmin atau:
+
+   ```bash
+   mysql -u root -p -e "CREATE DATABASE absensi_tamamaung CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+   ```
+
+   ). Untuk SQLite, ganti `DB_CONNECTION=sqlite` dan kosongkan baris `DB_*` lainnya.
+
+6. **Jalankan migrasi + seeder (data dummy):**
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+   Seeder membuat: role, kelas **4A & 4B** (masing-masing 30 siswa = 60 siswa), akun pengguna demo, dan ±2400 data absensi 40 hari terakhir.
+
+7. **Jalankan server (opsional casing Windows/Linux):**
+
+   ```bash
+   php artisan serve
+   ```
+
+   Lalu buka **http://127.0.0.1:8000**.
+
+   > Jika memakai URL berbeda saat deploy (subfolder/domain), set `APP_URL` di `.env`. Supaya cache ikut baru, jalankan
+   > `php artisan config:cache` / `php artisan optimize:clear` setelah mengubah `.env`.
+
+---
+
+## Akun Demo
+
+Semua kata sandi default: `password`
+
+| Peran          | Username  | Halaman yang bisa diakses                                  |
+|----------------|-----------|------------------------------------------------------------|
+| Admin          | `admin`   | Semua menu (siswa, kelas, pengguna, kartu, laporan, dsb.)  |
+| Guru/Wali Kelas| `guru`    | Wali kelas 4A (kelas walinya saja)                         |
+| Guru/Wali Kelas| `guru.4b` | Wali kelas 4B                                              |
+| Kepala Sekolah | `kepsek`  | Dashboard & laporan                                        |
+| Siswa contoh   | `andi.pratama` | Riwayat absensi & kartu sendiri                        |
+
+> Daftar akun siswa bisa dilihat dari halaman **Data Siswa** (login sebagai admin).
+
+---
+
+## Ekspor PDF (opsional — Chrome/Edge headless)
+
+Aplikasi otomatis memakai Chrome/Edge yang terinstall untuk render PDF agar cepat dan tidak error pada data banyak. Jika Chrome/Edge ditempatkan di lokasi non-standar, tentukan path-nya di `.env`:
+
+```env
+CHROME_PATH=C:\Program Files\Google\Chrome\Application\chrome.exe
+```
+
+Bila tidak tersedia, aplikasi otomatis jatuh ke dompdf (lebih lambat untuk data sangat banyak).
+
+---
+
+## Troubleshooting
+
+- **`No application encryption key`** → jalankan `php artisan key:generate`.
+- **Koneksi database ditolak** → pastikan MySQL aktif dan kredensial di `.env` benar.
+- **Error permission `storage/` atau `bootstrap/cache/`** (Linux) →
+  `chmod -R 775 storage bootstrap/cache`.
+- **Laporan/PDF kosong atau gagal** → cek `APP_DEBUG=true` untuk melihat pesan error saat pengembangan.
+- **Ingin reset total data** → `php artisan migrate:fresh --seed`.
+
+---
+
+## Lisensi
+
+Project akademik/magang (UHM) — kode sumber terbuka untuk keperluan tugas akhir.

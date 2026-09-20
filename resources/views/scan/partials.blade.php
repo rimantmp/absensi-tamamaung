@@ -31,7 +31,7 @@ async function submitCode(code){
                 </div>
                 <div class="status-badge" style="border-color:${data.status === 'Hadir' ? 'var(--success)' : 'var(--ochre)'};color:${data.status === 'Hadir' ? 'var(--success)' : 'var(--ink)'}">
                     <span class="material-symbols-outlined fill">${data.created ? 'check_circle' : 'info'}</span>
-                    ${data.status} - ${data.time}
+                    ${data.status} - ${data.time}${data.check_out ? ' / ' + data.check_out : ''}
                 </div>
            </div>
            <p class="muted" style="margin:12px 0 0">${data.message}</p>`
