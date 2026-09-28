@@ -27,3 +27,16 @@ Homestead.yaml
 Thumbs.db
 *.zip
 ~$*
+.DESIGN-clay.md
+.HASIL_TEST_BLACKBOX.md
+.Kuesioner_UAT_Pengguna.docx
+.Laporan_Hasil_Pengujian_Black_Box.docx
+.PRD.md
+.Perancangan-Database.docx
+.Rencana_Pengujian_Beta_UAT.docx
+.Tabulasi_UAT_Pengguna.xlsx
+.blackbox-testing.md
+.database-design.md
+.desain.md
+.prompt.md
+
