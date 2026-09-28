@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users', [AppController::class, 'users'])->name('users.index');
     Route::post('/users', [AppController::class, 'saveUser'])->name('users.store');
+    Route::put('/users/{user}', [AppController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{user}', [AppController::class, 'destroyUser'])->name('users.destroy');
 
     Route::get('/cards', [AppController::class, 'cards'])->name('cards.index');
     Route::get('/my-card', [AppController::class, 'myCard'])->name('cards.mine');

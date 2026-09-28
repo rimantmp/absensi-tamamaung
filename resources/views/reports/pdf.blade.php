@@ -71,11 +71,12 @@
 <div class="pb"></div>
 <h3>C. Rekap per Siswa</h3>
 <table>
-    <tr><th class="c">No Absen</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th class="c">Hadir</th><th class="c">Terlambat</th><th class="c">Izin</th><th class="c">Sakit</th><th class="c">Alpa</th><th class="c">Total</th><th class="c">%</th></tr>
+    <tr><th class="c">No Absen</th><th>NIS</th><th>NISN</th><th>Nama Siswa</th><th>Kelas</th><th class="c">Hadir</th><th class="c">Terlambat</th><th class="c">Izin</th><th class="c">Sakit</th><th class="c">Alpa</th><th class="c">Total</th><th class="c">%</th></tr>
     @foreach($recapByStudent as $r)
     <tr>
         <td class="c">{{ $r['attendance_number'] }}</td>
         <td>{{ $r['nis'] }}</td>
+        <td>{{ $r['nisn'] ?? '-' }}</td>
         <td>{{ $r['name'] }}</td>
         <td>{{ $r['class'] }}</td>
         <td class="c">{{ $r['Hadir'] }}</td>

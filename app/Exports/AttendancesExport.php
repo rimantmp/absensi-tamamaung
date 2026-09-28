@@ -7,13 +7,13 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class AttendancesExport implements WithMultipleSheets
 {
-    public function __construct(private Collection $attendances) {}
+    public function __construct(private Collection $attendances, private string $sort = 'attendance_number') {}
 
     public function sheets(): array
     {
         return [
             new DetailSheet($this->attendances),
-            new RecapSheet($this->attendances),
+            new RecapSheet($this->attendances, $this->sort),
         ];
     }
 }

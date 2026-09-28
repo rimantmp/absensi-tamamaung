@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class RecapSheet implements FromCollection, ShouldAutoSize, WithEvents, WithHeadings, WithTitle
 {
-    public function __construct(private Collection $attendances) {}
+    public function __construct(private Collection $attendances, private string $sort = 'attendance_number') {}
 
     public function title(): string
     {
@@ -22,7 +22,7 @@ class RecapSheet implements FromCollection, ShouldAutoSize, WithEvents, WithHead
 
     public function headings(): array
     {
-        return ['No Absen', 'NIS', 'Nama Siswa', 'Kelas', 'Hadir', 'Terlambat', 'Izin', 'Sakit', 'Alpa', 'Total Hari', '% Kehadiran'];
+        return ['No Absen', 'NIS', 'NISN', 'Nama Siswa', 'Kelas', 'Hadir', 'Terlambat', 'Izin', 'Sakit', 'Alpa', 'Total Hari', '% Kehadiran'];
     }
 
     public function collection(): Collection
@@ -41,6 +41,7 @@ class RecapSheet implements FromCollection, ShouldAutoSize, WithEvents, WithHead
                 return [
                     'class_id' => $student->class_id,
                     'nis' => $student->nis,
+                    'nisn' => $student->nisn,
                     'name' => $student->name,
                     'class' => $student->class?->name,
                     'hadir' => $hadir,
@@ -61,9 +62,22 @@ class RecapSheet implements FromCollection, ShouldAutoSize, WithEvents, WithHead
             $classKey = $row['class_id'] ?? 'no-class';
             $classNumbers[$classKey] = ($classNumbers[$classKey] ?? 0) + 1;
 
+            return ['attendance_number' => $classNumbers[$classKey], ...$row];
+        })->sortBy(function ($row) {
+            $class = mb_strtolower($row['class'] ?? '');
+            $value = match ($this->sort) {
+                'name' => mb_strtolower($row['name']),
+                'nisn' => (string) ($row['nisn'] ?? ''),
+                default => str_pad((string) $row['attendance_number'], 10, '0', STR_PAD_LEFT),
+            };
+
+            return $class.'|'.$value;
+        })->values()->map(function ($row) {
+
             return [
-                $classNumbers[$classKey],
+                $row['attendance_number'],
                 $row['nis'],
+                $row['nisn'],
                 $row['name'],
                 $row['class'],
                 $row['hadir'],
@@ -81,9 +95,9 @@ class RecapSheet implements FromCollection, ShouldAutoSize, WithEvents, WithHead
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getStyle('A1:K1')->getFont()->setBold(true);
-                $event->sheet->getStyle('A1:K1')->getFont()->getColor()->setARGB('FFFFFFFF');
-                $event->sheet->getStyle('A1:K1')->getFill()
+                $event->sheet->getStyle('A1:L1')->getFont()->setBold(true);
+                $event->sheet->getStyle('A1:L1')->getFont()->getColor()->setARGB('FFFFFFFF');
+                $event->sheet->getStyle('A1:L1')->getFill()
                     ->setFillType(Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('FF1A3A3A');
             },

@@ -28,6 +28,7 @@
     <label>Kelas<select style="max-width:180px" name="class_id"><option value="">Semua kelas</option>@foreach($classes as $c)<option value="{{ $c->id }}" @selected(request('class_id')==$c->id)>{{ $c->name }}</option>@endforeach</select></label>
     <label>Siswa<select style="max-width:220px" name="student_id"><option value="">Semua siswa</option>@foreach($students as $s)<option value="{{ $s->id }}" @selected(request('student_id')==$s->id)>{{ $s->name }}</option>@endforeach</select></label>
     <label>Status<select style="max-width:160px" name="status"><option value="">Semua status</option>@foreach(['Hadir','Terlambat','Izin','Sakit','Alpa'] as $st)<option @selected(request('status')===$st)>{{ $st }}</option>@endforeach</select></label>
+    <label>Urutkan berdasarkan<select style="max-width:190px" name="sort"><option value="attendance_number" @selected(request('sort', 'attendance_number')==='attendance_number')>No Absen</option><option value="name" @selected(request('sort')==='name')>Nama</option><option value="nisn" @selected(request('sort')==='nisn')>NISN</option></select></label>
     <button class="btn secondary">Terapkan Filter</button>
     <a class="btn secondary" href="{{ route('reports.index') }}">Reset</a>
     <small style="flex-basis:100%;color:var(--muted)">Periode diisi salah satu saja: <b>Tanggal</b> = rekap per hari · <b>Minggu</b> = pilih tanggal apa pun, sistem ambil Senin–Minggu pada pekan itu · <b>Bulan</b> = rekap per bulan.</small>
@@ -48,7 +49,7 @@
 <div class="card"><h3 style="margin-top:0">A. Rekap per Kelas</h3><table><tr><th>Kelas</th><th>Hadir</th><th>Terlambat</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total</th><th>% Kehadiran</th></tr>@foreach($recapByClass as $r)<tr><td>{{ $r['name'] }}</td><td>{{ $r['Hadir'] }}</td><td>{{ $r['Terlambat'] }}</td><td>{{ $r['Izin'] }}</td><td>{{ $r['Sakit'] }}</td><td>{{ $r['Alpa'] }}</td><td><b>{{ $r['total'] }}</b></td><td>{{ $r['rate'] }}%</td></tr>@endforeach</table></div>
 
 @if($recapByStudent->isNotEmpty())
-<div class="card" style="margin-top:16px"><h3 style="margin-top:0">B. Rekap per Siswa</h3><table><tr><th>No Absen</th><th>NIS</th><th>Nama</th><th>Kelas</th><th>Hadir</th><th>Terlambat</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total Hari</th><th>% Kehadiran</th></tr>@foreach($recapByStudent as $r)<tr><td>{{ $r['attendance_number'] }}</td><td>{{ $r['nis'] }}</td><td>{{ $r['name'] }}</td><td>{{ $r['class'] }}</td><td>{{ $r['Hadir'] }}</td><td>{{ $r['Terlambat'] }}</td><td>{{ $r['Izin'] }}</td><td>{{ $r['Sakit'] }}</td><td>{{ $r['Alpa'] }}</td><td><b>{{ $r['total'] }}</b></td><td>{{ $r['rate'] }}%</td></tr>@endforeach</table></div>
+<div class="card" style="margin-top:16px"><h3 style="margin-top:0">B. Rekap per Siswa</h3><table><tr><th>No Absen</th><th>NIS</th><th>NISN</th><th>Nama</th><th>Kelas</th><th>Hadir</th><th>Terlambat</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total Hari</th><th>% Kehadiran</th></tr>@foreach($recapByStudent as $r)<tr><td>{{ $r['attendance_number'] }}</td><td>{{ $r['nis'] }}</td><td>{{ $r['nisn'] ?? '-' }}</td><td>{{ $r['name'] }}</td><td>{{ $r['class'] }}</td><td>{{ $r['Hadir'] }}</td><td>{{ $r['Terlambat'] }}</td><td>{{ $r['Izin'] }}</td><td>{{ $r['Sakit'] }}</td><td>{{ $r['Alpa'] }}</td><td><b>{{ $r['total'] }}</b></td><td>{{ $r['rate'] }}%</td></tr>@endforeach</table></div>
 @endif
 @endif
 

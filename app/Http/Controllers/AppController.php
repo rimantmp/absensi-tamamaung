@@ -134,11 +134,24 @@ class AppController extends Controller
         return redirect()->route('classes.index')->with('ok', 'Data kelas beserta seluruh siswanya telah dihapus.');
     }
 
-    public function users()
+    public function users(Request $request)
     {
         $this->adminOnly();
 
-        return view('users.index', ['users' => User::with('roles')->latest()->get()]);
+        $users = User::with('roles')
+            ->when($request->q, fn ($q, $term) => $q->where(fn ($s) => $s
+                ->where('name', 'like', "%{$term}%")
+                ->orWhere('username', 'like', "%{$term}%")
+                ->orWhere('email', 'like', "%{$term}%")))
+            ->when($request->role, fn ($q, $role) => $q->whereHas('roles', fn ($r) => $r->where('name', $role)))
+            ->when($request->status, fn ($q, $status) => $q->where('status', $status))
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $roles = ['Admin', 'Guru', 'Kepala Sekolah', 'Siswa'];
+
+        return view('users.index', ['users' => $users, 'roles' => $roles]);
     }
 
     public function saveUser(Request $request)
@@ -157,6 +170,38 @@ class AppController extends Controller
         $user->assignRole($data['role']);
 
         return back()->with('ok', 'Akun pengguna dibuat.');
+    }
+
+    public function updateUser(Request $request, User $user)
+    {
+        $this->adminOnly();
+        $data = $request->validate([
+            'name' => ['required'],
+            'username' => ['required', Rule::unique('users', 'username')->ignore($user)],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user)],
+            'password' => ['nullable', 'min:6'],
+            'role' => ['required', Rule::in(['Admin', 'Guru', 'Kepala Sekolah', 'Siswa'])],
+            'status' => ['required', Rule::in(['active', 'inactive'])],
+        ]);
+
+        $user->fill(collect($data)->except('password')->all())->save();
+        $user->syncRoles([$data['role']]);
+
+        if ($data['password']) {
+            $user->update(['password' => Hash::make($data['password'])]);
+        }
+
+        return back()->with('ok', 'Akun pengguna diperbarui.');
+    }
+
+    public function destroyUser(User $user)
+    {
+        $this->adminOnly();
+        abort_if($user->id === auth()->id(), 403, 'Tidak dapat menghapus akun yang sedang digunakan.');
+
+        $user->delete();
+
+        return back()->with('ok', 'Akun pengguna dihapus.');
     }
 
     public function cards(Request $request)
@@ -260,7 +305,10 @@ class AppController extends Controller
 
     public function exportExcel(Request $request)
     {
-        return Excel::download(new AttendancesExport($this->reportQuery($request)->get()), 'laporan-absensi.xlsx');
+        return Excel::download(new AttendancesExport(
+            $this->reportQuery($request)->get(),
+            $this->reportSort($request)
+        ), 'laporan-absensi.xlsx');
     }
 
     public function exportPdf(Request $request)
@@ -456,10 +504,18 @@ class AppController extends Controller
             'class' => $class?->name,
             'student' => $student?->name,
             'status' => $request->status ?: null,
+            'sort' => $this->reportSort($request),
             'summary' => $this->statusSummary($rows),
             'recapByClass' => $this->recapByClass($rows),
-            'recapByStudent' => $request->student_id ? collect() : $this->recapByStudent($rows),
+            'recapByStudent' => $request->student_id ? collect() : $this->recapByStudent($rows, $this->reportSort($request)),
         ];
+    }
+
+    private function reportSort(Request $request): string
+    {
+        return in_array($request->sort, ['attendance_number', 'name', 'nisn'], true)
+            ? $request->sort
+            : 'attendance_number';
     }
 
     private function periodLabel(Request $request): string
@@ -507,7 +563,7 @@ class AppController extends Controller
         })->values()->sortBy('name')->values();
     }
 
-    private function recapByStudent($rows): Collection
+    private function recapByStudent($rows, string $sort = 'attendance_number'): Collection
     {
         $recap = $rows->groupBy('student_id')->filter()->map(function ($group) {
             $student = $group->first()->student;
@@ -516,6 +572,7 @@ class AppController extends Controller
                 'class_id' => $student->class_id,
                 'name' => $student->name,
                 'nis' => $student->nis,
+                'nisn' => $student->nisn,
                 'class' => $student->class?->name,
                 ...$this->statusCounts($group),
             ]);
@@ -529,7 +586,16 @@ class AppController extends Controller
             $row['attendance_number'] = $classNumbers[$classKey];
 
             return $row;
-        });
+        })->sortBy(function ($row) use ($sort) {
+            $class = mb_strtolower($row['class'] ?? '');
+            $value = match ($sort) {
+                'name' => mb_strtolower($row['name']),
+                'nisn' => (string) ($row['nisn'] ?? ''),
+                default => str_pad((string) $row['attendance_number'], 10, '0', STR_PAD_LEFT),
+            };
+
+            return $class.'|'.$value;
+        })->values();
     }
 
     private function statusCounts($group): array

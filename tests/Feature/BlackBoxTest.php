@@ -417,8 +417,32 @@ class BlackBoxTest extends TestCase
 
         $content = $this->actingAs($admin)->get('/reports')->assertOk()->getContent();
 
-        $this->assertStringContainsString('<tr><td>1</td><td>400001</td><td>Siswa Kelas A</td><td>4A</td>', $content);
-        $this->assertStringContainsString('<tr><td>1</td><td>400002</td><td>Siswa Kelas B</td><td>4B</td>', $content);
+        $this->assertStringContainsString('<tr><td>1</td><td>400001</td><td>940001</td><td>Siswa Kelas A</td><td>4A</td>', $content);
+        $this->assertStringContainsString('<tr><td>1</td><td>400002</td><td>940002</td><td>Siswa Kelas B</td><td>4B</td>', $content);
+    }
+
+    public function test_rekap_siswa_dapat_diurutkan_berdasarkan_nisn(): void
+    {
+        $admin = $this->makeRoleUser('Admin');
+        $class = $this->makeClass(null, '4A');
+        $studentZ = $this->makeStudent($class, [
+            'nis' => '400010', 'nisn' => '100001', 'name' => 'Zaki', 'barcode_value' => 'SDIT4-ZAKI',
+        ]);
+        $studentA = $this->makeStudent($class, [
+            'nis' => '400011', 'nisn' => '200001', 'name' => 'Ahmad', 'barcode_value' => 'SDIT4-AHMAD',
+        ]);
+
+        foreach ([$studentZ, $studentA] as $student) {
+            Attendance::create([
+                'student_id' => $student->id, 'class_id' => $class->id, 'date' => today(),
+                'status' => 'Hadir', 'input_type' => 'scan',
+            ]);
+        }
+
+        $content = $this->actingAs($admin)->get('/reports?sort=nisn')->assertOk()->getContent();
+        $recap = substr($content, strpos($content, 'B. Rekap per Siswa'));
+
+        $this->assertLessThan(strpos($recap, '<td>200001</td>'), strpos($recap, '<td>100001</td>'));
     }
 
     public function test_blackbox_ekspor_excel_mengunduh_file(): void
