@@ -15,12 +15,16 @@ class AttendanceScanController extends Controller
     {
         abort_unless(Auth::user()->hasAnyRole(['Admin', 'Guru']), 403);
 
-        return view('scan.internal');
+        $setting = AttendanceSetting::first();
+
+        return view('scan.internal', compact('setting'));
     }
 
     public function public()
     {
-        return view('scan.public');
+        $setting = AttendanceSetting::first();
+
+        return view('scan.public', compact('setting'));
     }
 
     public function store(Request $request)
@@ -42,17 +46,18 @@ class AttendanceScanController extends Controller
 
         if ($existing) {
             if ($existing->check_out_time) {
-                return response()->json($this->payload($existing, 'Absensi hari ini sudah lengkap (masuk & pulang).', false));
+                return response()->json($this->payload($existing, 'Absensi hari ini sudah lengkap (masuk & pulang).', false, 'Selesai (Sudah Masuk & Pulang)'));
             }
 
             $existing->update(['check_out_time' => $now->format('H:i:s')]);
 
-            return response()->json($this->payload($existing->refresh(), 'Jam pulang berhasil dicatat.', false));
+            return response()->json($this->payload($existing->refresh(), 'Jam pulang berhasil dicatat.', false, 'Pulang'));
         }
 
         $setting = AttendanceSetting::first();
         $lateLimit = Carbon::parse(($setting?->late_time_limit ?? '07:15:00'))->setDate($now->year, $now->month, $now->day);
         $status = $now->lte($lateLimit) ? 'Hadir' : 'Terlambat';
+        $keterangan = $status === 'Hadir' ? 'Hadir Tepat Waktu' : 'Terlambat';
 
         $attendance = Attendance::create([
             'student_id' => $student->id,
@@ -64,20 +69,42 @@ class AttendanceScanController extends Controller
             'created_by' => Auth::id(),
         ])->load('student.class');
 
-        return response()->json($this->payload($attendance, 'Absensi berhasil disimpan.', true));
+        return response()->json($this->payload($attendance, 'Absensi berhasil disimpan.', true, $keterangan));
     }
 
-    private function payload(Attendance $attendance, string $message, bool $created): array
+    private function payload(Attendance $attendance, string $message, bool $created, ?string $keterangan = null): array
     {
+        $date = Carbon::parse($attendance->date)->locale('id');
+        $checkIn = optional($attendance->check_in_time)->format('H:i') ?? substr((string) $attendance->getRawOriginal('check_in_time'), 0, 5);
+        $checkOut = optional($attendance->check_out_time)->format('H:i');
+        if (! $checkOut && $attendance->getRawOriginal('check_out_time')) {
+            $checkOut = substr((string) $attendance->getRawOriginal('check_out_time'), 0, 5);
+        }
+
+        if (! $keterangan) {
+            if ($checkOut) {
+                $keterangan = 'Pulang';
+            } elseif ($attendance->status === 'Hadir') {
+                $keterangan = 'Hadir Tepat Waktu';
+            } else {
+                $keterangan = $attendance->status;
+            }
+        }
+
         return [
             'ok' => true,
             'created' => $created,
             'message' => $message,
             'student' => $attendance->student->name,
+            'nisn' => $attendance->student->nisn ?? $attendance->student->nis ?? '-',
             'class' => $attendance->student->class->name,
-            'time' => optional($attendance->check_in_time)->format('H:i') ?? substr((string) $attendance->getRawOriginal('check_in_time'), 0, 5),
-            'check_out' => optional($attendance->check_out_time)->format('H:i'),
+            'day' => $date->translatedFormat('l'),
+            'date' => $date->translatedFormat('d F Y'),
+            'time' => $checkIn,
+            'check_out' => $checkOut,
             'status' => $attendance->status,
+            'keterangan' => $keterangan,
+            'scan_time' => now()->format('H:i:s'),
         ];
     }
 }

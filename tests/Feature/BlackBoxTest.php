@@ -225,6 +225,53 @@ class BlackBoxTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_blackbox_scan_berhasil_muncul_hari_tanggal_jam_keterangan(): void
+    {
+        $this->makeSetting();
+        $class = $this->makeClass();
+        $student = $this->makeStudent($class, [
+            'name' => 'Ahmad Fathan',
+            'nis' => '250100',
+            'nisn' => '0012345678',
+            'barcode_value' => 'SDIT4-TEST123',
+            'status' => 'active',
+        ]);
+
+        $response = $this->postJson('/scan', ['barcode_value' => 'SDIT4-TEST123']);
+
+        $response->assertOk()
+            ->assertJson([
+                'ok' => true,
+                'student' => 'Ahmad Fathan',
+                'class' => $class->name,
+            ])
+            ->assertJsonStructure([
+                'ok',
+                'student',
+                'class',
+                'day',
+                'date',
+                'time',
+                'keterangan',
+                'status',
+                'message',
+            ]);
+
+        $this->assertNotEmpty($response->json('day'));
+        $this->assertNotEmpty($response->json('date'));
+        $this->assertNotEmpty($response->json('time'));
+        $this->assertNotEmpty($response->json('keterangan'));
+
+        // Scan kedua untuk jam pulang
+        $responseCheckout = $this->postJson('/scan', ['barcode_value' => 'SDIT4-TEST123']);
+        $responseCheckout->assertOk()
+            ->assertJson([
+                'ok' => true,
+                'keterangan' => 'Pulang',
+            ]);
+        $this->assertNotEmpty($responseCheckout->json('check_out'));
+    }
+
     /* =============================== CRUD SISWA =============================== */
 
     public function test_blackbox_nis_duplikat_ditolak(): void
